@@ -1,62 +1,26 @@
 -- [[ 👑 TORA HUB SUPREME - V3.0 PROFESSIONAL 👑 ]]
--- Optimized for Delta, Fluxus and Mobile Executors
 -- STATUS: ESP BOX FIXED + HEALTH BAR BUG FIXED 🛠️
--- TIMER SYSTEM VIA GITHUB INTEGRATED
+-- SINCRO: ATIVAÇÃO VIA GITHUB eogbb31
+
+-- [[ BLOCO DE SEGURANÇA - NÃO MEXER ]]
+local GITHUB_URL = "https://raw.githubusercontent.com/eogbb007/roblox-scripts/refs/heads/main/status.txt"
+local success, status = pcall(function() return game:HttpGet(GITHUB_URL) end)
+if success and status:match("false") then 
+    print("Script desativado pelo desenvolvedor.")
+    return 
+end
+-- [[ FIM DO BLOCO DE SEGURANÇA ]]
 
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
--- [[ TIMER SYSTEM ]]
+-- [[ LÓGICA INTERNA DO AIMBOT ]]
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
 
--- Timer variables
-_G.ScriptActive = true
-local TimerRemaining = 0
-local TimerTotal = 0
-local TimerStart = tick()
-local TimerText = "00:00:00"
-local TimerStatus = "Online"
-
--- Fetch timer from GitHub
-local function FetchTimer()
-    local success, result = pcall(function()
-        return game:HttpGet("https://raw.githubusercontent.com/eogbb007/roblox-scripts/refs/heads/main/timer.txt")
-    end)
-    if success and result then
-        local trimmed = result:match("^%s*(.-)%s*$")  -- trim whitespace
-        local hours, minutes, seconds = trimmed:match("(%d+):(%d+):(%d+)")
-        if hours and minutes and seconds then
-            local total = tonumber(hours)*3600 + tonumber(minutes)*60 + tonumber(seconds)
-            if total > 0 then
-                _G.ScriptActive = true
-                TimerTotal = total
-                TimerRemaining = total
-                TimerStart = tick()
-                TimerStatus = "Online"
-            else
-                _G.ScriptActive = false
-                TimerRemaining = 0
-                TimerStatus = "Offline"
-            end
-        else
-            _G.ScriptActive = false
-            TimerRemaining = 0
-            TimerStatus = "Offline"
-        end
-    else
-        _G.ScriptActive = false
-        TimerRemaining = 0
-        TimerStatus = "Offline (No Connection)"
-    end
-end
-
-FetchTimer() -- initial fetch
-
--- [[ LÓGICA INTERNA DO AIMBOT ]]
 _G.AimbotEnabled = false
 _G.FovVisible = true
 _G.FovRadius = 100
@@ -129,249 +93,75 @@ Stroke.Color = Color3.fromRGB(0, 255, 127)
 
 FloatingBtn.MouseButton1Click:Connect(function() Window:Minimize() end)
 
--- 4. Home Content (dynamic labels)
+-- 4. Home Content
 local HomeSection = Tabs.Home:AddSection("Session Information")
 Tabs.Home:AddParagraph({
     Title = "Welcome, " .. LocalPlayer.DisplayName,
     Content = "Executor: DELTA DETECTED\nStatus: Active Subscription\nVersion: 4.5.0 ESP 500M"
 })
 
-local TimerLabel = Tabs.Home:AddLabel("Timer: " .. TimerText, {Color = Color3.fromRGB(255, 255, 0)})
-local StatusLabel = Tabs.Home:AddLabel("Status: " .. TimerStatus, {Color = Color3.fromRGB(0, 255, 0)})
-
 Tabs.Home:AddButton({
     Title = "Rejoin Server",
     Callback = function() game:GetService("TeleportService"):Teleport(game.PlaceId) end
 })
 
--- Helper to create toggles with timer check
-local function createToggle(tab, id, options)
-    local originalCallback = options.Callback
-    local toggle = tab:AddToggle(id, {
-        Title = options.Title,
-        Default = options.Default,
-        Callback = function(v)
-            if not _G.ScriptActive and v then
-                Fluent:Notify({
-                    Title = "System",
-                    Content = "Aguardee uma atualização oficial!",
-                    Duration = 3
-                })
-                toggle:SetValue(false, true) -- revert without triggering callback
-                return
-            end
-            if originalCallback then originalCallback(v) end
-        end
-    })
-    return toggle
-end
-
--- Table to store all toggles for later forced disable if needed
-local AllToggles = {}
-
 -- [[ 🎯 COMBAT SECTION ]]
 local AimSection = Tabs.Combat:AddSection("Aimbot Settings")
-local aimbotToggle = createToggle(Tabs.Combat, "AimbotActive", {
-    Title = "Enable Aimbot",
-    Default = false,
-    Callback = function(v) _G.AimbotEnabled = v end
-})
-table.insert(AllToggles, aimbotToggle)
-
-local fovToggle = createToggle(Tabs.Combat, "ShowFov", {
-    Title = "Enable FOV Circle",
-    Default = true,
-    Callback = function(v) FovCircle.Visible = v end
-})
-table.insert(AllToggles, fovToggle)
-
-local fovSlider = Tabs.Combat:AddSlider("FovSize", {
-    Title = "FOV Radius",
-    Default = 100,
-    Min = 10,
-    Max = 400,
-    Rounding = 0,
-    Callback = function(v) _G.FovRadius = v FovCircle.Radius = v end
-})
+Tabs.Combat:AddToggle("AimbotActive", {Title = "Enable Aimbot", Default = false, Callback = function(v) _G.AimbotEnabled = v end})
+Tabs.Combat:AddToggle("ShowFov", {Title = "Enable FOV Circle", Default = true, Callback = function(v) FovCircle.Visible = v end})
+Tabs.Combat:AddSlider("FovSize", {Title = "FOV Radius", Default = 100, Min = 10, Max = 400, Rounding = 0, Callback = function(v) _G.FovRadius = v FovCircle.Radius = v end})
 
 local TargetSection = Tabs.Combat:AddSection("Target Selection")
-local hitPartDropdown = Tabs.Combat:AddDropdown("HitPart", {
+Tabs.Combat:AddDropdown("HitPart", {
     Title = "Select Target Part",
     Values = {"Head", "Neck", "HumanoidRootPart", "UpperTorso", "Left Arm", "Right Arm"},
     Default = "Head",
     Callback = function(v) _G.TargetPart = v end
 })
-
-local teamCheckToggle = createToggle(Tabs.Combat, "TeamCheck", {
-    Title = "Team Check",
-    Default = false,
-    Callback = function(v) _G.TeamCheck = v end
-})
-table.insert(AllToggles, teamCheckToggle)
-
-local wallCheckToggle = createToggle(Tabs.Combat, "WallCheck", {
-    Title = "Wall Check (Wallhack)",
-    Default = true,
-    Callback = function(v) _G.WallCheck = v end
-})
-table.insert(AllToggles, wallCheckToggle)
+Tabs.Combat:AddToggle("TeamCheck", {Title = "Team Check", Default = false, Callback = function(v) _G.TeamCheck = v end})
+Tabs.Combat:AddToggle("WallCheck", {Title = "Wall Check (Wallhack)", Default = true, Callback = function(v) _G.WallCheck = v end})
 
 -- [[ 👁️ ESP SECTION ]]
 local EspOpt = Tabs.ESP:AddSection("ESP Toggles")
-local espMasterToggle = createToggle(Tabs.ESP, "EspMaster", {
-    Title = "Enable ESP Master",
-    Default = false,
-    Callback = function(v) _G.EspEnabled = v end
-})
-table.insert(AllToggles, espMasterToggle)
-
-local espSkeletonToggle = createToggle(Tabs.ESP, "EspSkeleton", {
-    Title = "Show Skeleton",
-    Default = false,
-    Callback = function(v) _G.EspSkeleton = v end
-})
-table.insert(AllToggles, espSkeletonToggle)
-
-local espBoxToggle = createToggle(Tabs.ESP, "EspBox", {
-    Title = "Show Boxes",
-    Default = false,
-    Callback = function(v) _G.EspBoxes = v end
-})
-table.insert(AllToggles, espBoxToggle)
-
-local espTracerToggle = createToggle(Tabs.ESP, "EspTracer", {
-    Title = "Show Tracers",
-    Default = false,
-    Callback = function(v) _G.EspTracers = v end
-})
-table.insert(AllToggles, espTracerToggle)
-
-Tabs.ESP:AddDropdown("TracerOri", {
-    Title = "Tracer Origin",
-    Values = {"Top", "Center", "Bottom"},
-    Default = "Bottom",
-    Callback = function(v) _G.TracerOrigin = v end
-})
-
-local espHealthToggle = createToggle(Tabs.ESP, "EspHealth", {
-    Title = "Health Bar (Vertical)",
-    Default = false,
-    Callback = function(v) _G.EspHealthBar = v end
-})
-table.insert(AllToggles, espHealthToggle)
-
-local espHealthHToggle = createToggle(Tabs.ESP, "EspHealthH", {
-    Title = "Health Bar (Horizontal)",
-    Default = false,
-    Callback = function(v) _G.EspHealthHorizontal = v end
-})
-table.insert(AllToggles, espHealthHToggle)
-
-local espChamsToggle = createToggle(Tabs.ESP, "EspCham", {
-    Title = "Soft Chams",
-    Default = false,
-    Callback = function(v) _G.EspChams = v end
-})
-table.insert(AllToggles, espChamsToggle)
+Tabs.ESP:AddToggle("EspMaster", {Title = "Enable ESP Master", Default = false, Callback = function(v) _G.EspEnabled = v end})
+Tabs.ESP:AddToggle("EspSkeleton", {Title = "Show Skeleton", Default = false, Callback = function(v) _G.EspSkeleton = v end})
+Tabs.ESP:AddToggle("EspBox", {Title = "Show Boxes", Default = false, Callback = function(v) _G.EspBoxes = v end})
+Tabs.ESP:AddToggle("EspTracer", {Title = "Show Tracers", Default = false, Callback = function(v) _G.EspTracers = v end})
+Tabs.ESP:AddDropdown("TracerOri", {Title = "Tracer Origin", Values = {"Top", "Center", "Bottom"}, Default = "Bottom", Callback = function(v) _G.TracerOrigin = v end})
+Tabs.ESP:AddToggle("EspHealth", {Title = "Health Bar (Vertical)", Default = false, Callback = function(v) _G.EspHealthBar = v end})
+Tabs.ESP:AddToggle("EspHealthH", {Title = "Health Bar (Horizontal)", Default = false, Callback = function(v) _G.EspHealthHorizontal = v end})
+Tabs.ESP:AddToggle("EspCham", {Title = "Soft Chams", Default = false, Callback = function(v) _G.EspChams = v end})
 
 local EspColors = Tabs.ESP:AddSection("Individual ESP Colors")
-Tabs.ESP:AddColorpicker("SkeletonColorPick", {
-    Title = "Skeleton Color",
-    Default = Color3.fromRGB(255, 255, 255),
-    Callback = function(v) _G.SkeletonColor = v end
-})
-Tabs.ESP:AddColorpicker("BoxColorPick", {
-    Title = "Box Color",
-    Default = Color3.fromRGB(0, 255, 255),
-    Callback = function(v) _G.BoxColor = v end
-})
-Tabs.ESP:AddColorpicker("TracerColorPick", {
-    Title = "Tracer Color",
-    Default = Color3.fromRGB(255, 255, 0),
-    Callback = function(v) _G.TracerColor = v end
-})
-Tabs.ESP:AddColorpicker("ChamsColorPick", {
-    Title = "Chams Color",
-    Default = Color3.fromRGB(255, 255, 255),
-    Callback = function(v) _G.ChamsColor = v end
-})
-Tabs.ESP:AddColorpicker("HealthColorPick", {
-    Title = "Health Bar Color",
-    Default = Color3.fromRGB(0, 255, 0),
-    Callback = function(v) _G.HealthBarColor = v end
-})
+Tabs.ESP:AddColorpicker("SkeletonColorPick", {Title = "Skeleton Color", Default = Color3.fromRGB(255, 255, 255), Callback = function(v) _G.SkeletonColor = v end})
+Tabs.ESP:AddColorpicker("BoxColorPick", {Title = "Box Color", Default = Color3.fromRGB(0, 255, 255), Callback = function(v) _G.BoxColor = v end})
+Tabs.ESP:AddColorpicker("TracerColorPick", {Title = "Tracer Color", Default = Color3.fromRGB(255, 255, 0), Callback = function(v) _G.TracerColor = v end})
+Tabs.ESP:AddColorpicker("ChamsColorPick", {Title = "Chams Color", Default = Color3.fromRGB(255, 255, 255), Callback = function(v) _G.ChamsColor = v end})
+Tabs.ESP:AddColorpicker("HealthColorPick", {Title = "Health Bar Color", Default = Color3.fromRGB(0, 255, 0), Callback = function(v) _G.HealthBarColor = v end})
 
 -- [[ 🎨 VISUAL TAB ]]
 local ColorSection = Tabs.Visuals:AddSection("Professional Color Manager")
-local ThemeColor = Tabs.Visuals:AddColorpicker("AccentColor", {
-    Title = "FOV Circle Color",
-    Default = Color3.fromRGB(0, 255, 127)
-})
+local ThemeColor = Tabs.Visuals:AddColorpicker("AccentColor", {Title = "FOV Circle Color", Default = Color3.fromRGB(0, 255, 127)})
 ThemeColor:OnChanged(function() FovCircle.Color = ThemeColor.Value end)
-
-local BallColorPicker = Tabs.Visuals:AddColorpicker("BallColor", {
-    Title = "Floating Ball Stroke",
-    Default = Color3.fromRGB(0, 255, 127)
-})
+local BallColorPicker = Tabs.Visuals:AddColorpicker("BallColor", {Title = "Floating Ball Stroke", Default = Color3.fromRGB(0, 255, 127)})
 BallColorPicker:OnChanged(function() Stroke.Color = BallColorPicker.Value end)
 
-Tabs.Visuals:AddButton({
-    Title = "Apply Selection",
-    Callback = function()
-        Fluent:Notify({Title = "Visual System", Content = "Colors Synchronized!", Duration = 3})
-    end
-})
+Tabs.Visuals:AddButton({Title = "Apply Selection", Callback = function() Fluent:Notify({Title = "Visual System", Content = "Colors Synchronized!", Duration = 3}) end})
 
 local BallSection = Tabs.Visuals:AddSection("Floating Button Adjustments")
-Tabs.Visuals:AddSlider("BallSize", {
-    Title = "Button Size",
-    Default = 55,
-    Min = 10,
-    Max = 100,
-    Rounding = 0,
-    Callback = function(Value) FloatingBtn.Size = UDim2.new(0, Value, 0, Value) end
-})
-Tabs.Visuals:AddSlider("BallTransp", {
-    Title = "Button Opacity",
-    Default = 0,
-    Min = 0,
-    Max = 1,
-    Rounding = 1,
-    Callback = function(Value)
-        FloatingBtn.ImageTransparency = Value
-        FloatingBtn.BackgroundTransparency = Value
-    end
-})
+Tabs.Visuals:AddSlider("BallSize", {Title = "Button Size", Default = 55, Min = 10, Max = 100, Rounding = 0, Callback = function(Value) FloatingBtn.Size = UDim2.new(0, Value, 0, Value) end})
+Tabs.Visuals:AddSlider("BallTransp", {Title = "Button Opacity", Default = 0, Min = 0, Max = 1, Rounding = 1, Callback = function(Value) FloatingBtn.ImageTransparency = Value FloatingBtn.BackgroundTransparency = Value end})
 
 -- [[ ⚙️ SETTINGS TAB ]]
 local HardwareSection = Tabs.Settings:AddSection("Performance & Hardware")
 Tabs.Settings:AddToggle("AntiAFK", {Title = "Anti-AFK System (No Kick)", Default = true})
 Tabs.Settings:AddToggle("FPSBoost", {Title = "Anti-Lag / FPS Boost", Default = false})
 local UISection = Tabs.Settings:AddSection("Panel Size")
-Tabs.Settings:AddButton({
-    Title = "Minimize Menu (Mobile View)",
-    Callback = function() Window:SetSize(UDim2.fromOffset(400, 300)) end
-})
-Tabs.Settings:AddButton({
-    Title = "Expand Menu (Full View)",
-    Callback = function() Window:SetSize(UDim2.fromOffset(580, 460)) end
-})
+Tabs.Settings:AddButton({Title = "Minimize Menu (Mobile View)", Callback = function() Window:SetSize(UDim2.fromOffset(400, 300)) end})
+Tabs.Settings:AddButton({Title = "Expand Menu (Full View)", Callback = function() Window:SetSize(UDim2.fromOffset(580, 460)) end})
 local ClipSection = Tabs.Settings:AddSection("Utilities")
-Tabs.Settings:AddButton({
-    Title = "Copy Script Link/Key",
-    Callback = function()
-        setclipboard("https://tora-hub.com")
-        Fluent:Notify({Title = "Copied", Content = "Link saved to clipboard!", Duration = 2})
-    end
-})
-Tabs.Settings:AddButton({
-    Title = "Unload Entire Script",
-    Callback = function()
-        FovCircle:Remove()
-        Window:Destroy()
-        ScreenGui:Destroy()
-    end
-})
+Tabs.Settings:AddButton({Title = "Copy Script Link/Key", Callback = function() setclipboard("https://tora-hub.com") Fluent:Notify({Title = "Copied", Content = "Link saved to clipboard!", Duration = 2}) end})
+Tabs.Settings:AddButton({Title = "Unload Entire Script", Callback = function() FovCircle:Remove() Window:Destroy() ScreenGui:Destroy() end})
 
 -- [[ 👁️ MOTOR DE ESP CORRIGIDO (FIX BOX & HEALTH) ]]
 local function CreateESP(Player)
@@ -401,7 +191,7 @@ local function CreateESP(Player)
 
     local Connection
     Connection = RunService.RenderStepped:Connect(function()
-        if _G.ScriptActive and _G.EspEnabled and Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") and Player ~= LocalPlayer then
+        if _G.EspEnabled and Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") and Player ~= LocalPlayer then
             local Root = Player.Character.HumanoidRootPart
             local Hum = Player.Character:FindFirstChildOfClass("Humanoid")
             local Head = Player.Character:FindFirstChild("Head")
@@ -434,11 +224,11 @@ local function CreateESP(Player)
                         local HealthPercent = math.clamp(Hum.Health / Hum.MaxHealth, 0, 1)
                         HealthOutline.Size = Vector2.new(4, Height + 2)
                         HealthOutline.Position = Vector2.new(PosX - 6, PosY - 1)
-                        HealthOutline.Color = Color3.new(0,0,0) -- Fundo sempre preto
+                        HealthOutline.Color = Color3.new(0,0,0) 
 
                         HealthBar.Size = Vector2.new(2, Height * HealthPercent)
                         HealthBar.Position = Vector2.new(PosX - 5, PosY + (Height * (1 - HealthPercent)))
-                        HealthBar.Color = _G.HealthBarColor -- Cor definida pelo usuário
+                        HealthBar.Color = _G.HealthBarColor 
                     end
 
                     -- VIDA HORIZONTAL
@@ -499,4 +289,55 @@ Players.PlayerAdded:Connect(CreateESP)
 local function GetTargetPart(Char)
     if _G.TargetPart == "UpperTorso" then return Char:FindFirstChild("UpperTorso") or Char:FindFirstChild("Torso")
     elseif _G.TargetPart == "Neck" then return Char:FindFirstChild("Neck") or Char:FindFirstChild("Head")
-    else return Char:Fi
+    else return Char:FindFirstChild(_G.TargetPart) end
+end
+
+local function GetClosestPlayer()
+    local Target = nil
+    local Dist = _G.FovRadius
+    for _, v in pairs(Players:GetPlayers()) do
+        if v ~= LocalPlayer and v.Character then
+            local Part = GetTargetPart(v.Character)
+            if Part then
+                if _G.TeamCheck and v.Team == LocalPlayer.Team then continue end
+                local hum = v.Character:FindFirstChildOfClass("Humanoid")
+                if not hum or hum.Health <= 0 then continue end
+                local Pos, OnScreen = Camera:WorldToViewportPoint(Part.Position)
+                if OnScreen then
+                    local Magnitude = (Vector2.new(Pos.X, Pos.Y) - Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)).Magnitude
+                    if Magnitude < Dist then
+                        if _G.WallCheck then
+                            local obs = Camera:GetPartsObscuringTarget({Part.Position}, {LocalPlayer.Character, v.Character})
+                            if #obs > 0 then continue end
+                        end
+                        Target = v
+                        Dist = Magnitude
+                    end
+                end
+            end
+        end
+    end
+    return Target
+end
+
+RunService.RenderStepped:Connect(function()
+    FovCircle.Position = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
+    if _G.AimbotEnabled then
+        local Target = GetClosestPlayer()
+        if Target and Target.Character then
+            local Part = GetTargetPart(Target.Character)
+            if Part then
+                Camera.CFrame = CFrame.new(Camera.CFrame.Position, Part.Position)
+            end
+        end
+    end
+end)
+
+SaveManager:SetLibrary(Fluent)
+InterfaceManager:SetLibrary(Fluent)
+SaveManager:IgnoreThemeSettings()
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+SaveManager:BuildConfigSection(Tabs.Settings)
+
+Window:SelectTab(1)
+Fluent:Notify({Title = "TORA SUPREME", Content = "Bug da Barra de Vida Corrigido!", Duration = 5})
