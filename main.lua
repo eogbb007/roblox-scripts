@@ -1,343 +1,151 @@
--- [[ 👑 TORA HUB SUPREME - V3.0 PROFESSIONAL 👑 ]]
--- STATUS: ESP BOX FIXED + HEALTH BAR BUG FIXED 🛠️
--- SINCRO: ATIVAÇÃO VIA GITHUB eogbb31
+local a=string.char;local b=table.concat;local c={}local function d(e)local f={}for g=1,#e do f[g]=a(e[g])end return b(f)end
+c[1]=d({104,116,116,112,115,58,47,47,114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,101,111,103,98,98,48,48,55,47,114,111,98,108,111,120,45,115,99,114,105,112,116,115,47,114,101,102,115,47,104,101,97,100,115,47,109,97,105,110,47,115,116,97,116,117,115,46,116,120,116})
+c[2]=d({102,97,108,115,101})
+c[3]=d({83,99,114,105,112,116,32,100,101,115,97,116,105,118,97,100,111,32,112,101,108,111,32,100,101,115,101,110,118,111,108,118,101,100,111,114,46})
+c[4]=d({104,116,116,112,115,58,47,47,103,105,116,104,117,98,46,99,111,109,47,100,97,119,105,100,45,115,99,114,105,112,116,115,47,70,108,117,101,110,116,47,114,101,108,101,97,115,101,115,47,108,97,116,101,115,116,47,100,111,119,110,108,111,97,100,47,109,97,105,110,46,108,117,97})
+c[5]=d({104,116,116,112,115,58,47,47,114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,100,97,119,105,100,45,115,99,114,105,112,116,115,47,70,108,117,101,110,116,47,109,97,115,116,101,114,47,65,100,100,111,110,115,47,83,97,118,101,77,97,110,97,103,101,114,46,108,117,97})
+c[6]=d({104,116,116,112,115,58,47,47,114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,100,97,119,105,100,45,115,99,114,105,112,116,115,47,70,108,117,101,110,116,47,109,97,115,116,101,114,47,65,100,100,111,110,115,47,73,110,116,101,114,102,97,99,101,77,97,110,97,103,101,114,46,108,117,97})
+c[7]=d({82,117,110,83,101,114,118,105,99,101})
+c[8]=d({80,108,97,121,101,114,115})
+c[9]=d({72,101,97,100})
+c[10]=d({66,111,116,116,111,109})
+c[11]=d({67,105,114,99,108,101})
+c[12]=d({84,79,82,65,32,73,83,32,77,69,32,124,32,83,85,80,82,69,77,69,32,72,85,66})
+c[13]=d({80,114,111,102,101,115,115,105,111,110,97,108,32,69,100,105,116,105,111,110})
+c[14]=d({104,111,109,101})
+c[15]=d({116,97,114,103,101,116})
+c[16]=d({101,121,101})
+c[17]=d({112,97,108,101,116,116,101})
+c[18]=d({115,101,116,116,105,110,103,115})
+c[19]=d({83,99,114,101,101,110,71,117,105})
+c[20]=d({73,109,97,103,101,66,117,116,116,111,110})
+c[21]=d({85,73,67,111,114,110,101,114})
+c[22]=d({85,73,83,116,114,111,107,101})
+c[23]=d({83,117,112,114,101,109,101,66,97,108,108})
+c[24]=d({114,98,120,97,115,115,101,116,105,100,58,47,47,49,48,55,50,51,51,52,53,54,54,51})
+c[25]=d({83,101,115,115,105,111,110,32,73,110,102,111,114,109,97,116,105,111,110})
+c[26]=d({87,101,108,99,111,109,101,44,32})
+c[27]=d({69,120,101,99,117,116,111,114,58,32,68,69,76,84,65,32,68,69,84,69,67,84,69,68,10,83,116,97,116,117,115,58,32,65,99,116,105,118,101,32,83,117,98,115,99,114,105,112,116,105,111,110,10,86,101,114,115,105,111,110,58,32,52,46,53,46,48,32,69,83,80,32,53,48,48,77})
+c[28]=d({82,101,106,111,105,110,32,83,101,114,118,101,114})
+c[29]=d({84,101,108,101,112,111,114,116,83,101,114,118,105,99,101})
+c[30]=d({65,105,109,98,111,116,32,83,101,116,116,105,110,103,115})
+c[31]=d({69,110,97,98,108,101,32,65,105,109,98,111,116})
+c[32]=d({69,110,97,98,108,101,32,70,79,86,32,67,105,114,99,108,101})
+c[33]=d({70,79,86,32,82,97,100,105,117,115})
+c[34]=d({84,97,114,103,101,116,32,83,101,108,101,99,116,105,111,110})
+c[35]=d({83,101,108,101,99,116,32,84,97,114,103,101,116,32,80,97,114,116})
+c[36]=d({72,101,97,100,44,78,101,99,107,44,72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116,44,85,112,112,101,114,84,111,114,115,111,44,76,101,102,116,32,65,114,109,44,82,105,103,104,116,32,65,114,109})
+c[37]=d({84,101,97,109,32,67,104,101,99,107})
+c[38]=d({87,97,108,108,32,67,104,101,99,107,32,40,87,97,108,108,104,97,99,107,41})
+c[39]=d({69,83,80,32,84,111,103,103,108,101,115})
+c[40]=d({69,110,97,98,108,101,32,69,83,80,32,77,97,115,116,101,114})
+c[41]=d({83,104,111,119,32,83,107,101,108,101,116,111,110})
+c[42]=d({83,104,111,119,32,66,111,120,101,115})
+c[43]=d({83,104,111,119,32,84,114,97,99,101,114,115})
+c[44]=d({84,114,97,99,101,114,32,79,114,105,103,105,110})
+c[45]=d({84,111,112,44,67,101,110,116,101,114,44,66,111,116,116,111,109})
+c[46]=d({72,101,97,108,116,104,32,66,97,114,32,40,86,101,114,116,105,99,97,108,41})
+c[47]=d({72,101,97,108,116,104,32,66,97,114,32,40,72,111,114,105,122,111,110,116,97,108,41})
+c[48]=d({83,111,102,116,32,67,104,97,109,115})
+c[49]=d({73,110,100,105,118,105,100,117,97,108,32,69,83,80,32,67,111,108,111,114,115})
+c[50]=d({83,107,101,108,101,116,111,110,32,67,111,108,111,114})
+c[51]=d({66,111,120,32,67,111,108,111,114})
+c[52]=d({84,114,97,99,101,114,32,67,111,108,111,114})
+c[53]=d({67,104,97,109,115,32,67,111,108,111,114})
+c[54]=d({72,101,97,108,116,104,32,66,97,114,32,67,111,108,111,114})
+c[55]=d({80,114,111,102,101,115,115,105,111,110,97,108,32,67,111,108,111,114,32,77,97,110,97,103,101,114})
+c[56]=d({70,79,86,32,67,105,114,99,108,101,32,67,111,108,111,114})
+c[57]=d({70,108,111,97,116,105,110,103,32,66,97,108,108,32,83,116,114,111,107,101})
+c[58]=d({65,112,112,108,121,32,83,101,108,101,99,116,105,111,110})
+c[59]=d({86,105,115,117,97,108,32,83,121,115,116,101,109})
+c[60]=d({67,111,108,111,114,115,32,83,121,110,99,104,114,111,110,105,122,101,100,33})
+c[61]=d({70,108,111,97,116,105,110,103,32,66,117,116,116,111,110,32,65,100,106,117,115,116,109,101,110,116,115})
+c[62]=d({66,117,116,116,111,110,32,83,105,122,101})
+c[63]=d({66,117,116,116,111,110,32,79,112,97,99,105,116,121})
+c[64]=d({80,101,114,102,111,114,109,97,110,99,101,32,38,32,72,97,114,100,119,97,114,101})
+c[65]=d({65,110,116,105,45,65,70,75,32,83,121,115,116,101,109,32,40,78,111,32,75,105,99,107,41})
+c[66]=d({65,110,116,105,45,76,97,103,32,47,32,70,80,83,32,66,111,111,115,116})
+c[67]=d({80,97,110,101,108,32,83,105,122,101})
+c[68]=d({77,105,110,105,109,105,122,101,32,77,101,110,117,32,40,77,111,98,105,108,101,32,86,105,101,119,41})
+c[69]=d({69,120,112,97,110,100,32,77,101,110,117,32,40,70,117,108,108,32,86,105,101,119,41})
+c[70]=d({85,116,105,108,105,116,105,101,115})
+c[71]=d({67,111,112,121,32,83,99,114,105,112,116,32,76,105,110,107,47,75,101,121})
+c[72]=d({104,116,116,112,115,58,47,47,116,111,114,97,45,104,117,98,46,99,111,109})
+c[73]=d({67,111,112,105,101,100})
+c[74]=d({76,105,110,107,32,115,97,118,101,100,32,116,111,32,99,108,105,112,98,111,97,114,100,33})
+c[75]=d({85,110,108,111,97,100,32,69,110,116,105,114,101,32,83,99,114,105,112,116})
+c[76]=d({83,113,117,97,114,101})
+c[77]=d({76,105,110,101})
+c[78]=d({84,111,114,97,86,105,115,117,97,108})
+c[79]=d({84,79,82,65,32,83,85,80,82,69,77,69})
+c[80]=d({66,117,103,32,100,97,32,66,97,114,114,97,32,100,101,32,86,105,100,97,32,67,111,114,114,105,103,105,100,111,33})
 
--- [[ BLOCO DE SEGURANÇA - NÃO MEXER ]]
-local GITHUB_URL = "https://raw.githubusercontent.com/eogbb007/roblox-scripts/refs/heads/main/status.txt"
-local success, status = pcall(function() return game:HttpGet(GITHUB_URL) end)
-if success and status:match("false") then 
-    print("Script desativado pelo desenvolvedor.")
-    return 
-end
--- [[ FIM DO BLOCO DE SEGURANÇA ]]
+local e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z=pcall(function()return game:HttpGet(c[1])end),game:GetService,game:GetService,game:GetService,game:GetService,game:GetService,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G,_G;if e and status:match(c[2])then print(c[3])return end
+local aa=loadstring(game:HttpGet(c[4]))()local ab=loadstring(game:HttpGet(c[5]))()local ac=loadstring(game:HttpGet(c[6]))()local ad=f(c[7])local ae=g(c[8])local af=ae.LocalPlayerlocal ag=workspace.CurrentCamera
+h.AimbotEnabled=false h.FovVisible=true h.FovRadius=100 h.TeamCheck=false h.WallCheck=true h.TargetPart=c[9]h.EspEnabled=false h.EspBoxes=false h.EspTracers=false h.EspSkeleton=false h.EspHealthBar=false h.EspHealthHorizontal=false h.EspChams=false h.TracerOrigin=c[10]h.MaxDistance=500 h.BoxColor=Color3.fromRGB(0,255,255)h.TracerColor=Color3.fromRGB(255,255,0)h.ChamsColor=Color3.fromRGB(255,255,255)h.SkeletonColor=Color3.fromRGB(255,255,255)h.HealthBarColor=Color3.fromRGB(0,255,0)
+local ah=Drawing.new(c[11])ah.Visible=h.FovVisible ah.Thickness=1.5 ah.Color=Color3.fromRGB(0,255,127)ah.Filled=false ah.Radius=h.FovRadius ah.Position=Vector2.new(ag.ViewportSize.X/2,ag.ViewportSize.Y/2)
+local ai=aa:CreateWindow({Title=c[12],SubTitle=c[13],TabWidth=160,Size=UDim2.fromOffset(580,460),Acrylic=false,Theme=c[14],MinimizeKey=Enum.KeyCode.RightControl})
+local aj={Home=ai:AddTab({Title=c[12],Icon=c[14]}),Combat=ai:AddTab({Title=c[15],Icon=c[16]}),ESP=ai:AddTab({Title=c[17],Icon=c[18]}),Visuals=ai:AddTab({Title=c[19],Icon=c[20]}),Settings=ai:AddTab({Title=c[21],Icon=c[22]})}
+local ak=Instance.new(c[23],game.CoreGui)local al=Instance.new(c[24],ak)local am=Instance.new(c[25],al)local an=Instance.new(c[26],al)al.Name=c[27]al.Size=UDim2.new(0,55,0,55)al.Position=UDim2.new(0,20,0,150)al.Image=c[28]al.BackgroundColor3=Color3.fromRGB(25,25,25)al.Draggable=true al.Active=true am.CornerRadius=UDim.new(1,0)an.Thickness=2.5 an.Color=Color3.fromRGB(0,255,127)al.MouseButton1Click:Connect(function()ai:Minimize()end)
+aj.Home:AddSection(c[29])aj.Home:AddParagraph({Title=c[30]..af.DisplayName,Content=c[31]})aj.Home:AddButton({Title=c[32],Callback=function()game:GetService(c[33]):Teleport(game.PlaceId)end})
+aj.Combat:AddSection(c[34])aj.Combat:AddToggle(c[35],{Title=c[36],Default=false,Callback=function(ao)h.AimbotEnabled=ao end})aj.Combat:AddToggle(c[37],{Title=c[38],Default=true,Callback=function(ao)ah.Visible=ao end})aj.Combat:AddSlider(c[39],{Title=c[40],Default=100,Min=10,Max=400,Rounding=0,Callback=function(ao)h.FovRadius=ao ah.Radius=ao end})
+aj.Combat:AddSection(c[41])aj.Combat:AddDropdown(c[42],{Title=c[43],Values={c[44],c[45],c[46],c[47],c[48],c[49]},Default=c[50],Callback=function(ao)h.TargetPart=ao end})aj.Combat:AddToggle(c[51],{Title=c[52],Default=false,Callback=function(ao)h.TeamCheck=ao end})aj.Combat:AddToggle(c[53],{Title=c[54],Default=true,Callback=function(ao)h.WallCheck=ao end})
+aj.ESP:AddSection(c[55])aj.ESP:AddToggle(c[56],{Title=c[57],Default=false,Callback=function(ao)h.EspEnabled=ao end})aj.ESP:AddToggle(c[58],{Title=c[59],Default=false,Callback=function(ao)h.EspSkeleton=ao end})aj.ESP:AddToggle(c[60],{Title=c[61],Default=false,Callback=function(ao)h.EspBoxes=ao end})aj.ESP:AddToggle(c[62],{Title=c[63],Default=false,Callback=function(ao)h.EspTracers=ao end})aj.ESP:AddDropdown(c[64],{Title=c[65],Values={c[66],c[67],c[68]},Default=c[69],Callback=function(ao)h.TracerOrigin=ao end})aj.ESP:AddToggle(c[70],{Title=c[71],Default=false,Callback=function(ao)h.EspHealthBar=ao end})aj.ESP:AddToggle(c[72],{Title=c[73],Default=false,Callback=function(ao)h.EspHealthHorizontal=ao end})aj.ESP:AddToggle(c[74],{Title=c[75],Default=false,Callback=function(ao)h.EspChams=ao end})
+aj.ESP:AddSection(c[76])aj.ESP:AddColorpicker(c[77],{Title=c[78],Default=Color3.fromRGB(255,255,255),Callback=function(ao)h.SkeletonColor=ao end})aj.ESP:AddColorpicker(c[79],{Title=c[80],Default=Color3.fromRGB(0,255,255),Callback=function(ao)h.BoxColor=ao end})aj.ESP:AddColorpicker(c[81],{Title=c[82],Default=Color3.fromRGB(255,255,0),Callback=function(ao)h.TracerColor=ao end})aj.ESP:AddColorpicker(c[83],{Title=c[84],Default=Color3.fromRGB(255,255,255),Callback=function(ao)h.ChamsColor=ao end})aj.ESP:AddColorpicker(c[85],{Title=c[86],Default=Color3.fromRGB(0,255,0),Callback=function(ao)h.HealthBarColor=ao end})
+aj.Visuals:AddSection(c[87])local ap=aj.Visuals:AddColorpicker(c[88],{Title=c[89],Default=Color3.fromRGB(0,255,127)})ap:OnChanged(function()ah.Color=ap.Value end)local aq=aj.Visuals:AddColorpicker(c[90],{Title=c[91],Default=Color3.fromRGB(0,255,127)})aq:OnChanged(function()an.Color=aq.Value end)aj.Visuals:AddButton({Title=c[92],Callback=function()aa:Notify({Title=c[93],Content=c[94],Duration=3})end})
+aj.Visuals:AddSection(c[95])aj.Visuals:AddSlider(c[96],{Title=c[97],Default=55,Min=10,Max=100,Rounding=0,Callback=function(ao)al.Size=UDim2.new(0,ao,0,ao)end})aj.Visuals:AddSlider(c[98],{Title=c[99],Default=0,Min=0,Max=1,Rounding=1,Callback=function(ao)al.ImageTransparency=ao al.BackgroundTransparency=ao end})
+aj.Settings:AddSection(c[100])aj.Settings:AddToggle(c[101],{Title=c[102],Default=true})aj.Settings:AddToggle(c[103],{Title=c[104],Default=false})aj.Settings:AddSection(c[105])aj.Settings:AddButton({Title=c[106],Callback=function()ai:SetSize(UDim2.fromOffset(400,300))end})aj.Settings:AddButton({Title=c[107],Callback=function()ai:SetSize(UDim2.fromOffset(580,460))end})aj.Settings:AddSection(c[108])aj.Settings:AddButton({Title=c[109],Callback=function()setclipboard(c[110])aa:Notify({Title=c[111],Content=c[112],Duration=2})end})aj.Settings:AddButton({Title=c[113],Callback=function()ah:Remove()ai:Destroy()ak:Destroy()end})
 
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
-local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
-local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
-
--- [[ LÓGICA INTERNA DO AIMBOT ]]
-local RunService = game:GetService("RunService")
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local Camera = workspace.CurrentCamera
-
-_G.AimbotEnabled = false
-_G.FovVisible = true
-_G.FovRadius = 100
-_G.TeamCheck = false
-_G.WallCheck = true
-_G.TargetPart = "Head"
-
--- Globais do ESP
-_G.EspEnabled = false
-_G.EspBoxes = false
-_G.EspTracers = false
-_G.EspSkeleton = false 
-_G.EspHealthBar = false
-_G.EspHealthHorizontal = false 
-_G.EspChams = false
-_G.TracerOrigin = "Bottom"
-_G.MaxDistance = 500 
-
--- NOVAS GLOBAIS DE CORES
-_G.BoxColor = Color3.fromRGB(0, 255, 255)
-_G.TracerColor = Color3.fromRGB(255, 255, 0)
-_G.ChamsColor = Color3.fromRGB(255, 255, 255)
-_G.SkeletonColor = Color3.fromRGB(255, 255, 255)
-_G.HealthBarColor = Color3.fromRGB(0, 255, 0)
-
-local FovCircle = Drawing.new("Circle")
-FovCircle.Visible = _G.FovVisible
-FovCircle.Thickness = 1.5
-FovCircle.Color = Color3.fromRGB(0, 255, 127)
-FovCircle.Filled = false
-FovCircle.Radius = _G.FovRadius
-FovCircle.Position = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
-
--- 1. Main Window
-local Window = Fluent:CreateWindow({
-    Title = "TORA IS ME | SUPREME HUB",
-    SubTitle = "Professional Edition",
-    TabWidth = 160,
-    Size = UDim2.fromOffset(580, 460),
-    Acrylic = false,
-    Theme = "Darker",
-    MinimizeKey = Enum.KeyCode.RightControl
-})
-
--- 2. Tabs
-local Tabs = {
-    Home = Window:AddTab({ Title = "🏠 Home", Icon = "home" }),
-    Combat = Window:AddTab({ Title = "🎯 Aimbot", Icon = "target" }),
-    ESP = Window:AddTab({ Title = "👁️ ESP Visuals", Icon = "eye" }),
-    Visuals = Window:AddTab({ Title = "🎨 Colors & UI", Icon = "palette" }),
-    Settings = Window:AddTab({ Title = "⚙️ Pro Options", Icon = "settings" })
-}
-
--- 3. Floating Button System
-local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
-local FloatingBtn = Instance.new("ImageButton", ScreenGui)
-local Corner = Instance.new("UICorner", FloatingBtn)
-local Stroke = Instance.new("UIStroke", FloatingBtn)
-
-FloatingBtn.Name = "SupremeBall"
-FloatingBtn.Size = UDim2.new(0, 55, 0, 55)
-FloatingBtn.Position = UDim2.new(0, 20, 0, 150)
-FloatingBtn.Image = "rbxassetid://10723345663" 
-FloatingBtn.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-FloatingBtn.Draggable = true
-FloatingBtn.Active = true
-Corner.CornerRadius = UDim.new(1, 0)
-Stroke.Thickness = 2.5
-Stroke.Color = Color3.fromRGB(0, 255, 127)
-
-FloatingBtn.MouseButton1Click:Connect(function() Window:Minimize() end)
-
--- 4. Home Content
-local HomeSection = Tabs.Home:AddSection("Session Information")
-Tabs.Home:AddParagraph({
-    Title = "Welcome, " .. LocalPlayer.DisplayName,
-    Content = "Executor: DELTA DETECTED\nStatus: Active Subscription\nVersion: 4.5.0 ESP 500M"
-})
-
-Tabs.Home:AddButton({
-    Title = "Rejoin Server",
-    Callback = function() game:GetService("TeleportService"):Teleport(game.PlaceId) end
-})
-
--- [[ 🎯 COMBAT SECTION ]]
-local AimSection = Tabs.Combat:AddSection("Aimbot Settings")
-Tabs.Combat:AddToggle("AimbotActive", {Title = "Enable Aimbot", Default = false, Callback = function(v) _G.AimbotEnabled = v end})
-Tabs.Combat:AddToggle("ShowFov", {Title = "Enable FOV Circle", Default = true, Callback = function(v) FovCircle.Visible = v end})
-Tabs.Combat:AddSlider("FovSize", {Title = "FOV Radius", Default = 100, Min = 10, Max = 400, Rounding = 0, Callback = function(v) _G.FovRadius = v FovCircle.Radius = v end})
-
-local TargetSection = Tabs.Combat:AddSection("Target Selection")
-Tabs.Combat:AddDropdown("HitPart", {
-    Title = "Select Target Part",
-    Values = {"Head", "Neck", "HumanoidRootPart", "UpperTorso", "Left Arm", "Right Arm"},
-    Default = "Head",
-    Callback = function(v) _G.TargetPart = v end
-})
-Tabs.Combat:AddToggle("TeamCheck", {Title = "Team Check", Default = false, Callback = function(v) _G.TeamCheck = v end})
-Tabs.Combat:AddToggle("WallCheck", {Title = "Wall Check (Wallhack)", Default = true, Callback = function(v) _G.WallCheck = v end})
-
--- [[ 👁️ ESP SECTION ]]
-local EspOpt = Tabs.ESP:AddSection("ESP Toggles")
-Tabs.ESP:AddToggle("EspMaster", {Title = "Enable ESP Master", Default = false, Callback = function(v) _G.EspEnabled = v end})
-Tabs.ESP:AddToggle("EspSkeleton", {Title = "Show Skeleton", Default = false, Callback = function(v) _G.EspSkeleton = v end})
-Tabs.ESP:AddToggle("EspBox", {Title = "Show Boxes", Default = false, Callback = function(v) _G.EspBoxes = v end})
-Tabs.ESP:AddToggle("EspTracer", {Title = "Show Tracers", Default = false, Callback = function(v) _G.EspTracers = v end})
-Tabs.ESP:AddDropdown("TracerOri", {Title = "Tracer Origin", Values = {"Top", "Center", "Bottom"}, Default = "Bottom", Callback = function(v) _G.TracerOrigin = v end})
-Tabs.ESP:AddToggle("EspHealth", {Title = "Health Bar (Vertical)", Default = false, Callback = function(v) _G.EspHealthBar = v end})
-Tabs.ESP:AddToggle("EspHealthH", {Title = "Health Bar (Horizontal)", Default = false, Callback = function(v) _G.EspHealthHorizontal = v end})
-Tabs.ESP:AddToggle("EspCham", {Title = "Soft Chams", Default = false, Callback = function(v) _G.EspChams = v end})
-
-local EspColors = Tabs.ESP:AddSection("Individual ESP Colors")
-Tabs.ESP:AddColorpicker("SkeletonColorPick", {Title = "Skeleton Color", Default = Color3.fromRGB(255, 255, 255), Callback = function(v) _G.SkeletonColor = v end})
-Tabs.ESP:AddColorpicker("BoxColorPick", {Title = "Box Color", Default = Color3.fromRGB(0, 255, 255), Callback = function(v) _G.BoxColor = v end})
-Tabs.ESP:AddColorpicker("TracerColorPick", {Title = "Tracer Color", Default = Color3.fromRGB(255, 255, 0), Callback = function(v) _G.TracerColor = v end})
-Tabs.ESP:AddColorpicker("ChamsColorPick", {Title = "Chams Color", Default = Color3.fromRGB(255, 255, 255), Callback = function(v) _G.ChamsColor = v end})
-Tabs.ESP:AddColorpicker("HealthColorPick", {Title = "Health Bar Color", Default = Color3.fromRGB(0, 255, 0), Callback = function(v) _G.HealthBarColor = v end})
-
--- [[ 🎨 VISUAL TAB ]]
-local ColorSection = Tabs.Visuals:AddSection("Professional Color Manager")
-local ThemeColor = Tabs.Visuals:AddColorpicker("AccentColor", {Title = "FOV Circle Color", Default = Color3.fromRGB(0, 255, 127)})
-ThemeColor:OnChanged(function() FovCircle.Color = ThemeColor.Value end)
-local BallColorPicker = Tabs.Visuals:AddColorpicker("BallColor", {Title = "Floating Ball Stroke", Default = Color3.fromRGB(0, 255, 127)})
-BallColorPicker:OnChanged(function() Stroke.Color = BallColorPicker.Value end)
-
-Tabs.Visuals:AddButton({Title = "Apply Selection", Callback = function() Fluent:Notify({Title = "Visual System", Content = "Colors Synchronized!", Duration = 3}) end})
-
-local BallSection = Tabs.Visuals:AddSection("Floating Button Adjustments")
-Tabs.Visuals:AddSlider("BallSize", {Title = "Button Size", Default = 55, Min = 10, Max = 100, Rounding = 0, Callback = function(Value) FloatingBtn.Size = UDim2.new(0, Value, 0, Value) end})
-Tabs.Visuals:AddSlider("BallTransp", {Title = "Button Opacity", Default = 0, Min = 0, Max = 1, Rounding = 1, Callback = function(Value) FloatingBtn.ImageTransparency = Value FloatingBtn.BackgroundTransparency = Value end})
-
--- [[ ⚙️ SETTINGS TAB ]]
-local HardwareSection = Tabs.Settings:AddSection("Performance & Hardware")
-Tabs.Settings:AddToggle("AntiAFK", {Title = "Anti-AFK System (No Kick)", Default = true})
-Tabs.Settings:AddToggle("FPSBoost", {Title = "Anti-Lag / FPS Boost", Default = false})
-local UISection = Tabs.Settings:AddSection("Panel Size")
-Tabs.Settings:AddButton({Title = "Minimize Menu (Mobile View)", Callback = function() Window:SetSize(UDim2.fromOffset(400, 300)) end})
-Tabs.Settings:AddButton({Title = "Expand Menu (Full View)", Callback = function() Window:SetSize(UDim2.fromOffset(580, 460)) end})
-local ClipSection = Tabs.Settings:AddSection("Utilities")
-Tabs.Settings:AddButton({Title = "Copy Script Link/Key", Callback = function() setclipboard("https://tora-hub.com") Fluent:Notify({Title = "Copied", Content = "Link saved to clipboard!", Duration = 2}) end})
-Tabs.Settings:AddButton({Title = "Unload Entire Script", Callback = function() FovCircle:Remove() Window:Destroy() ScreenGui:Destroy() end})
-
--- [[ 👁️ MOTOR DE ESP CORRIGIDO (FIX BOX & HEALTH) ]]
-local function CreateESP(Player)
-    local Box = Drawing.new("Square")
-    Box.Visible = false; Box.Filled = false; Box.Thickness = 1.5
-
-    local HealthOutline = Drawing.new("Square")
-    HealthOutline.Filled = true; HealthOutline.Thickness = 1
-
-    local HealthBar = Drawing.new("Square")
-    HealthBar.Filled = true; HealthBar.Thickness = 1
-
-    local H_HealthOutline = Drawing.new("Square") 
-    H_HealthOutline.Filled = true
-    local H_HealthBar = Drawing.new("Square")     
-    H_HealthBar.Filled = true
-
-    local Tracer = Drawing.new("Line")
-    local Bones = {}
-    for i = 1, 5 do Bones[i] = Drawing.new("Line"); Bones[i].Thickness = 1.5; Bones[i].Transparency = 1 end
-
-    local function RemoveESP()
-        Box:Remove(); HealthOutline:Remove(); HealthBar:Remove(); 
-        H_HealthOutline:Remove(); H_HealthBar:Remove(); Tracer:Remove()
-        for _, v in pairs(Bones) do v:Remove() end
-    end
-
-    local Connection
-    Connection = RunService.RenderStepped:Connect(function()
-        if _G.EspEnabled and Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") and Player ~= LocalPlayer then
-            local Root = Player.Character.HumanoidRootPart
-            local Hum = Player.Character:FindFirstChildOfClass("Humanoid")
-            local Head = Player.Character:FindFirstChild("Head")
-            
-            if Hum and Hum.Health > 0 and Head then
-                local RootPos, OnScreen = Camera:WorldToViewportPoint(Root.Position)
-                local HeadPos = Camera:WorldToViewportPoint(Head.Position + Vector3.new(0, 0.5, 0))
-                local LegPos = Camera:WorldToViewportPoint(Root.Position - Vector3.new(0, 3, 0))
-                
-                local MyRoot = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-                local Distance = MyRoot and (Root.Position - MyRoot.Position).Magnitude or 0
-
-                if OnScreen and Distance <= _G.MaxDistance then
-                    local Height = math.abs(HeadPos.Y - LegPos.Y)
-                    local Width = Height * 0.55
-                    local PosX = RootPos.X - Width / 2
-                    local PosY = HeadPos.Y
-
-                    -- Box
-                    Box.Visible = _G.EspBoxes
-                    if _G.EspBoxes then
-                        Box.Size = Vector2.new(Width, Height); Box.Position = Vector2.new(PosX, PosY); Box.Color = _G.BoxColor
-                    end
-
-                    -- VIDA VERTICAL (CORREÇÃO AQUI)
-                    local IsHealthV = _G.EspHealthBar
-                    HealthOutline.Visible = IsHealthV
-                    HealthBar.Visible = IsHealthV
-                    if IsHealthV then
-                        local HealthPercent = math.clamp(Hum.Health / Hum.MaxHealth, 0, 1)
-                        HealthOutline.Size = Vector2.new(4, Height + 2)
-                        HealthOutline.Position = Vector2.new(PosX - 6, PosY - 1)
-                        HealthOutline.Color = Color3.new(0,0,0) 
-
-                        HealthBar.Size = Vector2.new(2, Height * HealthPercent)
-                        HealthBar.Position = Vector2.new(PosX - 5, PosY + (Height * (1 - HealthPercent)))
-                        HealthBar.Color = _G.HealthBarColor 
-                    end
-
-                    -- VIDA HORIZONTAL
-                    local IsHealthH = _G.EspHealthHorizontal
-                    H_HealthOutline.Visible = IsHealthH
-                    H_HealthBar.Visible = IsHealthH
-                    if IsHealthH then
-                        local HealthPercent = math.clamp(Hum.Health / Hum.MaxHealth, 0, 1)
-                        H_HealthOutline.Size = Vector2.new(Width + 2, 4)
-                        H_HealthOutline.Position = Vector2.new(PosX - 1, PosY - 8)
-                        H_HealthOutline.Color = Color3.new(0,0,0)
-
-                        H_HealthBar.Size = Vector2.new(Width * HealthPercent, 2)
-                        H_HealthBar.Position = Vector2.new(PosX, PosY - 7)
-                        H_HealthBar.Color = _G.HealthBarColor
-                    end
-
-                    -- Tracers
-                    Tracer.Visible = _G.EspTracers
-                    if _G.EspTracers then
-                        Tracer.Color = _G.TracerColor
-                        Tracer.To = Vector2.new(RootPos.X, RootPos.Y)
-                        Tracer.From = (_G.TracerOrigin == "Bottom" and Vector2.new(Camera.ViewportSize.X/2, Camera.ViewportSize.Y) or _G.TracerOrigin == "Center" and Vector2.new(Camera.ViewportSize.X/2, Camera.ViewportSize.Y/2) or Vector2.new(Camera.ViewportSize.X/2, 0))
-                    end
-
-                    -- Skeleton
-                    if _G.EspSkeleton then
-                        local function GetP(n) local p = Player.Character:FindFirstChild(n); return p and Camera:WorldToViewportPoint(p.Position) end
-                        local T = GetP("UpperTorso") or GetP("Torso"); local LA = GetP("LeftUpperArm") or GetP("Left Arm"); local RA = GetP("RightUpperArm") or GetP("Right Arm"); local LL = GetP("LeftUpperLeg") or GetP("Left Leg"); local RL = GetP("RightUpperLeg") or GetP("Right Leg"); local HP = HeadPos
-                        if T and HP and LA and RA and LL and RL then
-                            local function L(i, f, t) Bones[i].Visible = true; Bones[i].From = Vector2.new(f.X, f.Y); Bones[i].To = Vector2.new(t.X, t.Y); Bones[i].Color = _G.SkeletonColor end
-                            L(1, HP, T); L(2, T, LA); L(3, T, RA); L(4, T, LL); L(5, T, RL)
-                        else for _, v in pairs(Bones) do v.Visible = false end end
-                    else for _, v in pairs(Bones) do v.Visible = false end end
-
-                    -- Chams
-                    if _G.EspChams then
-                        local High = Player.Character:FindFirstChild("ToraVisual") or Instance.new("Highlight", Player.Character)
-                        High.Name = "ToraVisual"; High.FillTransparency = 0.8; High.OutlineColor = _G.ChamsColor; High.FillColor = _G.ChamsColor; High.Enabled = true
-                    elseif Player.Character:FindFirstChild("ToraVisual") then Player.Character.ToraVisual.Enabled = false end
-                else
-                    Box.Visible = false; HealthOutline.Visible = false; HealthBar.Visible = false; H_HealthOutline.Visible = false; H_HealthBar.Visible = false; Tracer.Visible = false; for _, v in pairs(Bones) do v.Visible = false end
-                end
-            else
-                Box.Visible = false; HealthOutline.Visible = false; HealthBar.Visible = false; H_HealthOutline.Visible = false; H_HealthBar.Visible = false; Tracer.Visible = false; for _, v in pairs(Bones) do v.Visible = false end
-            end
-        else
-            Box.Visible = false; HealthOutline.Visible = false; HealthBar.Visible = false; H_HealthOutline.Visible = false; H_HealthBar.Visible = false; Tracer.Visible = false; for _, v in pairs(Bones) do v.Visible = false end
-            if not Player.Parent then RemoveESP(); Connection:Disconnect() end
-        end
+local function ar(as)
+    local at=Drawing.new(c[114])at.Visible=false at.Filled=false at.Thickness=1.5
+    local au=Drawing.new(c[115])au.Filled=true au.Thickness=1
+    local av=Drawing.new(c[116])av.Filled=true av.Thickness=1
+    local aw=Drawing.new(c[117])aw.Filled=true
+    local ax=Drawing.new(c[118])ax.Filled=true
+    local ay=Drawing.new(c[119])local az={}for ba=1,5 do az[ba]=Drawing.new(c[120])az[ba].Thickness=1.5 az[ba].Transparency=1 end
+    local function bb()at:Remove()au:Remove()av:Remove()aw:Remove()ax:Remove()ay:Remove()for _,bc in pairs(az)do bc:Remove()end end
+    local bd
+    bd=ad.RenderStepped:Connect(function()
+        if h.EspEnabled and as.Character and as.Character:FindFirstChild(c[121]) and as~=af then
+            local be=as.Character.HumanoidRootPart
+            local bf=as.Character:FindFirstChildOfClass(c[122])
+            local bg=as.Character:FindFirstChild(c[123])
+            if bf and bf.Health>0 and bg then
+                local bh,bi=ag:WorldToViewportPoint(be.Position)
+                local bj=ag:WorldToViewportPoint(bg.Position+Vector3.new(0,0.5,0))
+                local bk=ag:WorldToViewportPoint(be.Position-Vector3.new(0,3,0))
+                local bl=af.Character and af.Character:FindFirstChild(c[124])local bm=bl and (be.Position-bl.Position).Magnitude or 0
+                if bi and bm<=h.MaxDistance then
+                    local bn=math.abs(bj.Y-bk.Y)local bo=bn*0.55 local bp=bh.X-bo/2 local bq=bj.Y
+                    at.Visible=h.EspBoxes if h.EspBoxes then at.Size=Vector2.new(bo,bn)at.Position=Vector2.new(bp,bq)at.Color=h.BoxColor end
+                    local br=h.EspHealthBar au.Visible=br av.Visible=br if br then local bs=math.clamp(bf.Health/bf.MaxHealth,0,1)au.Size=Vector2.new(4,bn+2)au.Position=Vector2.new(bp-6,bq-1)au.Color=Color3.new(0,0,0)av.Size=Vector2.new(2,bn*bs)av.Position=Vector2.new(bp-5,bq+(bn*(1-bs)))av.Color=h.HealthBarColor end
+                    local bt=h.EspHealthHorizontal aw.Visible=bt ax.Visible=bt if bt then local bs=math.clamp(bf.Health/bf.MaxHealth,0,1)aw.Size=Vector2.new(bo+2,4)aw.Position=Vector2.new(bp-1,bq-8)aw.Color=Color3.new(0,0,0)ax.Size=Vector2.new(bo*bs,2)ax.Position=Vector2.new(bp,bq-7)ax.Color=h.HealthBarColor end
+                    ay.Visible=h.EspTracers if h.EspTracers then ay.Color=h.TracerColor ay.To=Vector2.new(bh.X,bh.Y)ay.From=(h.TracerOrigin==c[125]and Vector2.new(ag.ViewportSize.X/2,ag.ViewportSize.Y)or h.TracerOrigin==c[126]and Vector2.new(ag.ViewportSize.X/2,ag.ViewportSize.Y/2)or Vector2.new(ag.ViewportSize.X/2,0))end
+                    if h.EspSkeleton then local function bu(bv)local bw=as.Character:FindFirstChild(bv)return bw and ag:WorldToViewportPoint(bw.Position)end local bx=bu(c[127])or bu(c[128])local by=bu(c[129])or bu(c[130])local bz=bu(c[131])or bu(c[132])local bA=bu(c[133])or bu(c[134])local bB=bu(c[135])or bu(c[136])local bC=bj if bx and bC and by and bz and bA and bB then local function bD(bE,bF,bG)az[bE].Visible=true az[bE].From=Vector2.new(bF.X,bF.Y)az[bE].To=Vector2.new(bG.X,bG.Y)az[bE].Color=h.SkeletonColor end bD(1,bC,bx)bD(2,bx,by)bD(3,bx,bz)bD(4,bx,bA)bD(5,bx,bB)else for _,bc in pairs(az)do bc.Visible=false end end else for _,bc in pairs(az)do bc.Visible=false end end
+                    if h.EspChams then local bH=as.Character:FindFirstChild(c[137])or Instance.new(c[138],as.Character)bH.Name=c[139]bH.FillTransparency=0.8 bH.OutlineColor=h.ChamsColor bH.FillColor=h.ChamsColor bH.Enabled=true elseif as.Character:FindFirstChild(c[140])then as.Character.ToraVisual.Enabled=false end
+                else at.Visible=false au.Visible=false av.Visible=false aw.Visible=false ax.Visible=false ay.Visible=false for _,bc in pairs(az)do bc.Visible=false end end
+            else at.Visible=false au.Visible=false av.Visible=false aw.Visible=false ax.Visible=false ay.Visible=false for _,bc in pairs(az)do bc.Visible=false end end
+        else at.Visible=false au.Visible=false av.Visible=false aw.Visible=false ax.Visible=false ay.Visible=false for _,bc in pairs(az)do bc.Visible=false end if not as.Parent then bb()bd:Disconnect()end end
     end)
 end
+for _,bI in pairs(ae:GetPlayers())do ar(bI)end ae.PlayerAdded:Connect(ar)
 
-for _, v in pairs(Players:GetPlayers()) do CreateESP(v) end
-Players.PlayerAdded:Connect(CreateESP)
-
--- [[ MOTOR DE COMBATE CORE ]]
-local function GetTargetPart(Char)
-    if _G.TargetPart == "UpperTorso" then return Char:FindFirstChild("UpperTorso") or Char:FindFirstChild("Torso")
-    elseif _G.TargetPart == "Neck" then return Char:FindFirstChild("Neck") or Char:FindFirstChild("Head")
-    else return Char:FindFirstChild(_G.TargetPart) end
+local function bJ(bK)
+    if h.TargetPart==c[141]then return bK:FindFirstChild(c[142])or bK:FindFirstChild(c[143])
+    elseif h.TargetPart==c[144]then return bK:FindFirstChild(c[145])or bK:FindFirstChild(c[146])
+    else return bK:FindFirstChild(h.TargetPart)end
 end
+local function bL()
+    local bM=nil local bN=h.FovRadius for _,bO in pairs(ae:GetPlayers())do
+        if bO~=af and bO.Character then local bP=bJ(bO.Character)if bP then
+            if h.TeamCheck and bO.Team==af.Team then continue end
+            local bQ=bO.Character:FindFirstChildOfClass(c[147])if not bQ or bQ.Health<=0 then continue end
+            local bR,bS=ag:WorldToViewportPoint(bP.Position)if bS then
+                local bT=(Vector2.new(bR.X,bR.Y)-Vector2.new(ag.ViewportSize.X/2,ag.ViewportSize.Y/2)).Magnitude
+                if bT<bN then
+                    if h.WallCheck then local bU=ag:GetPartsObscuringTarget({bP.Position},{af.Character,bO.Character})if #bU>0 then continue end end
+                    bM=bO bN=bT end end end end end
+    return bM end
+ad.RenderStepped:Connect(function()ah.Position=Vector2.new(ag.ViewportSize.X/2,ag.ViewportSize.Y/2)if h.AimbotEnabled then local bV=bL()if bV and bV.Character then local bW=bJ(bV.Character)if bW then ag.CFrame=CFrame.new(ag.CFrame.Position,bW.Position)end end end end)
 
-local function GetClosestPlayer()
-    local Target = nil
-    local Dist = _G.FovRadius
-    for _, v in pairs(Players:GetPlayers()) do
-        if v ~= LocalPlayer and v.Character then
-            local Part = GetTargetPart(v.Character)
-            if Part then
-                if _G.TeamCheck and v.Team == LocalPlayer.Team then continue end
-                local hum = v.Character:FindFirstChildOfClass("Humanoid")
-                if not hum or hum.Health <= 0 then continue end
-                local Pos, OnScreen = Camera:WorldToViewportPoint(Part.Position)
-                if OnScreen then
-                    local Magnitude = (Vector2.new(Pos.X, Pos.Y) - Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)).Magnitude
-                    if Magnitude < Dist then
-                        if _G.WallCheck then
-                            local obs = Camera:GetPartsObscuringTarget({Part.Position}, {LocalPlayer.Character, v.Character})
-                            if #obs > 0 then continue end
-                        end
-                        Target = v
-                        Dist = Magnitude
-                    end
-                end
-            end
-        end
-    end
-    return Target
-end
-
-RunService.RenderStepped:Connect(function()
-    FovCircle.Position = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
-    if _G.AimbotEnabled then
-        local Target = GetClosestPlayer()
-        if Target and Target.Character then
-            local Part = GetTargetPart(Target.Character)
-            if Part then
-                Camera.CFrame = CFrame.new(Camera.CFrame.Position, Part.Position)
-            end
-        end
-    end
-end)
-
-SaveManager:SetLibrary(Fluent)
-InterfaceManager:SetLibrary(Fluent)
-SaveManager:IgnoreThemeSettings()
-InterfaceManager:BuildInterfaceSection(Tabs.Settings)
-SaveManager:BuildConfigSection(Tabs.Settings)
-
-Window:SelectTab(1)
-Fluent:Notify({Title = "TORA SUPREME", Content = "Bug da Barra de Vida Corrigido!", Duration = 5})
+ab:SetLibrary(aa)ac:SetLibrary(aa)ab:IgnoreThemeSettings()ac:BuildInterfaceSection(aj.Settings)ab:BuildConfigSection(aj.Settings)ai:SelectTab(1)aa:Notify({Title=c[148],Content=c[149],Duration=5})
