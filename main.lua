@@ -114,7 +114,7 @@ local function GetGitHubTimer()
     local success, result = pcall(function()
         return HttpService:GetAsync(GITHUB_TIMER_URL)
     end)
-    
+
     if success and result then
         local timerValue = tonumber(result:match("%d+"))
         if timerValue and timerValue > 0 then
@@ -130,20 +130,20 @@ local function CheckTimerExpired()
     if CurrentTimeLeft <= 0 and not _G.TimerExpired then
         _G.TimerExpired = true
         _G.ScriptActive = false
-        
+
         _G.Settings.Aimbot.Enabled = false
         _G.Settings.ESP.Enabled = false
         FOVCircle.Visible = false
-        
+
         if TimerStatus then
             TimerStatus:SetDesc("⏰ SESSÃO EXPIRADA - Aguarde atualização")
         end
-        
+
         if TimerText then
             TimerText:SetTitle("🚫 SISTEMA BLOQUEADO")
             TimerText:SetContent("⏰ Tempo esgotado!\n\n🔄 Aguarde o desenvolvedor atualizar o timer no GitHub para continuar usando.\n\n📢 Fique atento às novidades!")
         end
-        
+
         Fluent:Notify({
             Title = "⏰ TEMPO ESGOTADO",
             Content = "Sessão de 1 hora finalizada! Aguarde atualização do timer no GitHub.",
@@ -159,31 +159,31 @@ local function UpdateTimer()
             if os.time() - LastGitHubCheck >= 300 then
                 GitHubTimerValue = GetGitHubTimer()
                 LastGitHubCheck = os.time()
-                
+
                 if GitHubTimerValue ~= CurrentTimeLeft and GitHubTimerValue > 0 then
                     CurrentTimeLeft = GitHubTimerValue
                 end
             end
-            
+
             if not _G.TimerExpired then
                 CurrentTimeLeft = CurrentTimeLeft - 1
-                
+
                 if CurrentTimeLeft < 0 then
                     CurrentTimeLeft = 0
                 end
-                
+
                 CheckTimerExpired()
-                
+
                 local hours = math.floor(CurrentTimeLeft / 3600)
                 local minutes = math.floor((CurrentTimeLeft % 3600) / 60)
                 local seconds = CurrentTimeLeft % 60
                 local timeString = string.format("%02d:%02d:%02d", hours, minutes, seconds)
-                
+
                 if TimerStatus and not _G.TimerExpired then
                     TimerStatus:SetDesc("⏰ Tempo restante: " .. timeString)
                 end
             end
-            
+
             task.wait(1)
         end
     end)
@@ -528,4 +528,5 @@ local function CreateESP(player)
     espTable.Name = Drawing.new("Text")
     espTable.Name.Visible = false; espTable.Name.Size = 13; espTable.Name.Center = true; espTable.Name.Outline = true; espTable.Name.Font = 3
     
-    espTable.Distance = Drawin
+    espTable.Distance = Drawing.new("Text")
+    espTable.Distance.Visible = false; espTable.Distance.Size = 11; espTable.Distance.Center = true; espTable.Distance.Outline
