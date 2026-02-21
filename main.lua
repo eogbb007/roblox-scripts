@@ -1,20 +1,37 @@
 -- [[ 👑 ESTERNAL | HUBS - PROFESSIONAL EDITION 👑 ]]
 -- STATUS: FULL ONLINE VERSION (GITHUB READY)
--- PROTEÇÃO: SESSÃO DE 1H SEM ARQUIVOS LOCAIS
+-- PROTEÇÃO: SESSÃO DE 1H + TRAVA DE FUNÇÕES + ANTI-BYPASS
+
+-- [[ 🛡️ SISTEMA ANTI-BULA (REEXECUÇÃO) ]]
+if _G.TempoExpirado then 
+    local MsgKick = "⚠️ 𝐄𝐒𝐓𝐄𝐑𝐍𝐀𝐋 | 𝐇𝐔𝐁𝐒 𝐃𝐄𝐓𝐄𝐂𝐓𝐄𝐃 ⚠️\n\n❌ Você tentou burlar o sistema reexecutando o script após o tempo expirar!\n\n🔄 Aguarde a atualização para usar novamente. ⌛✨"
+    game.Players.LocalPlayer:Kick(MsgKick)
+    return 
+end
 
 if _G.EsternalLoaded then return end
 _G.EsternalLoaded = true
 _G.ScriptAtivo = true 
+_G.TempoExpirado = false
 
 -- [[ 🕒 CONFIGURAÇÃO DE SESSÃO ONLINE ]]
 local TempoInicio = os.time()
-local TempoLimite = 3600 -- 1 Hora (3600 segundos)
-local MsgKick = "⚠️ 𝐄𝐒𝐓𝐄𝐑𝐍𝐀𝐋 | 𝐇𝐔𝐁𝐒 𝐒𝐄𝐒𝐒𝐈𝐎𝐍 ⚠️\n\n❌ Sua sessão de 1 hora expirou!\n\n🔄 O script está sendo atualizado no GitHub. Aguarde o novo patch para retornar! ⌛✨"
+local TempoLimite = 3600 -- 1 Hora
+local MsgKickPadrao = "⚠️ 𝐄𝐒𝐓𝐄𝐑𝐍𝐀𝐋 | 𝐇𝐔𝐁𝐒 𝐒𝐄𝐒𝐒𝐈𝐎𝐍 ⚠️\n\n❌ Sua sessão de 1 hora expirou!\n\n🔄 O script está sendo atualizado no GitHub. Aguarde o novo patch para retornar! ⌛✨"
 
 -- [[ 📚 LIBS ORIGINAIS ]]
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+
+-- [[ 🛠️ FUNÇÃO DE CHECAGEM DE SEGURANÇA ]]
+local function CheckAcesso()
+    if _G.TempoExpirado then
+        Fluent:Notify({Title = "SESSÃO EXPIRADA", Content = "As funções foram bloqueadas. Re-execute o script para atualizar.", Duration = 5})
+        return false
+    end
+    return true
+end
 
 -- [[ LÓGICA INTERNA DO AIMBOT ]]
 local RunService = game:GetService("RunService")
@@ -106,7 +123,7 @@ local TimerPara = Tabs.Home:AddParagraph({
     Content = "Sincronizando com GitHub..."
 })
 
--- LOOP DO TIMER ONLINE (SEM ARQUIVO)
+-- LOOP DO TIMER ONLINE (COM TRAVA DE SEGURANÇA)
 task.spawn(function()
     while _G.ScriptAtivo do
         local TempoPassado = os.time() - TempoInicio
@@ -114,14 +131,17 @@ task.spawn(function()
         
         if Restante <= 0 then 
             _G.ScriptAtivo = false
+            _G.TempoExpirado = true 
+            
+            _G.AimbotEnabled = false
+            _G.EspEnabled = false
+            FovCircle.Visible = false
+            
             HomeParagraph:SetTitle("📢 PAINEL EM ATUALIZAÇÃO")
-            HomeParagraph:SetDesc("Uma nova versão está sendo enviada ao GitHub agora! ⌛")
-            TimerPara:SetDesc("Sessão Expirada ❌")
-            task.wait(2.5)
-            FovCircle:Remove()
-            Window:Destroy()
-            ScreenGui:Destroy()
-            game.Players.LocalPlayer:Kick(MsgKick)
+            HomeParagraph:SetDesc("O script terá uma atualização, aguarde...")
+            TimerPara:SetDesc("Sessão Expirada: 00:00:00 ❌")
+            
+            Fluent:Notify({Title = "AVISO", Content = "Tempo expirado! Funções desativadas.", Duration = 10})
             break 
         end
         
@@ -138,9 +158,15 @@ Tabs.Home:AddButton({
 
 -- [[ 🎯 COMBAT SECTION ]]
 local AimSection = Tabs.Combat:AddSection("Aimbot Settings")
-Tabs.Combat:AddToggle("AimbotActive", {Title = "Enable Aimbot", Default = false, Callback = function(v) _G.AimbotEnabled = v end})
-Tabs.Combat:AddToggle("ShowFov", {Title = "Enable FOV Circle", Default = true, Callback = function(v) FovCircle.Visible = v end})
-Tabs.Combat:AddSlider("FovSize", {Title = "FOV Radius", Default = 100, Min = 10, Max = 400, Rounding = 0, Callback = function(v) _G.FovRadius = v FovCircle.Radius = v end})
+Tabs.Combat:AddToggle("AimbotActive", {Title = "Enable Aimbot", Default = false, Callback = function(v) 
+    if CheckAcesso() then _G.AimbotEnabled = v end 
+end})
+Tabs.Combat:AddToggle("ShowFov", {Title = "Enable FOV Circle", Default = true, Callback = function(v) 
+    if CheckAcesso() then FovCircle.Visible = v end 
+end})
+Tabs.Combat:AddSlider("FovSize", {Title = "FOV Radius", Default = 100, Min = 10, Max = 400, Rounding = 0, Callback = function(v) 
+    _G.FovRadius = v FovCircle.Radius = v 
+end})
 
 local TargetSection = Tabs.Combat:AddSection("Target Selection")
 Tabs.Combat:AddDropdown("HitPart", {
@@ -154,7 +180,9 @@ Tabs.Combat:AddToggle("WallCheck", {Title = "Wall Check (Wallhack)", Default = t
 
 -- [[ 👁️ ESP SECTION ]]
 local EspOpt = Tabs.ESP:AddSection("ESP Toggles")
-Tabs.ESP:AddToggle("EspMaster", {Title = "Enable ESP Master", Default = false, Callback = function(v) _G.EspEnabled = v end})
+Tabs.ESP:AddToggle("EspMaster", {Title = "Enable ESP Master", Default = false, Callback = function(v) 
+    if CheckAcesso() then _G.EspEnabled = v end 
+end})
 Tabs.ESP:AddToggle("EspSkeleton", {Title = "Show Skeleton", Default = false, Callback = function(v) _G.EspSkeleton = v end})
 Tabs.ESP:AddToggle("EspBox", {Title = "Show Boxes", Default = false, Callback = function(v) _G.EspBoxes = v end})
 Tabs.ESP:AddToggle("EspTracer", {Title = "Show Tracers", Default = false, Callback = function(v) _G.EspTracers = v end})
@@ -211,7 +239,7 @@ local function CreateESP(Player)
 
     local Connection
     Connection = RunService.RenderStepped:Connect(function()
-        if _G.ScriptAtivo and _G.EspEnabled and Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") and Player ~= LocalPlayer then
+        if _G.ScriptAtivo and _G.EspEnabled and not _G.TempoExpirado and Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") and Player ~= LocalPlayer then
             local Root = Player.Character.HumanoidRootPart; local Hum = Player.Character:FindFirstChildOfClass("Humanoid"); local Head = Player.Character:FindFirstChild("Head")
             if Hum and Hum.Health > 0 and Head then
                 local RootPos, OnScreen = Camera:WorldToViewportPoint(Root.Position); local HeadPos = Camera:WorldToViewportPoint(Head.Position + Vector3.new(0, 0.5, 0)); local LegPos = Camera:WorldToViewportPoint(Root.Position - Vector3.new(0, 3, 0))
@@ -295,7 +323,7 @@ local function GetClosestPlayer()
 end
 
 RunService.RenderStepped:Connect(function()
-    if not _G.ScriptAtivo then return end
+    if not _G.ScriptAtivo or _G.TempoExpirado then return end
     FovCircle.Position = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
     if _G.AimbotEnabled then
         local Target = GetClosestPlayer()
@@ -306,6 +334,7 @@ RunService.RenderStepped:Connect(function()
     end
 end)
 
+-- [[ FINALIZAÇÃO ]]
 SaveManager:SetLibrary(Fluent)
 InterfaceManager:SetLibrary(Fluent)
 SaveManager:IgnoreThemeSettings()
