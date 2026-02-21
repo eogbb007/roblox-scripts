@@ -1,345 +1,637 @@
 -- [[ 👑 ESTERNAL | HUBS - PROFESSIONAL EDITION 👑 ]]
--- STATUS: FULL ONLINE VERSION (GITHUB READY)
--- PROTEÇÃO: SESSÃO DE 1H + TRAVA DE FUNÇÕES + ANTI-BYPASS
+-- [[ 🔥 GITHUB UNIVERSAL TIMER VERSION 🔥 ]]
+-- [[ 📡 STATUS: 1H SESSION | UNIVERSAL COUNTDOWN | ALL FEATURES WORKING ]]
 
--- [[ 🛡️ SISTEMA ANTI-BULA (REEXECUÇÃO) ]]
-if _G.TempoExpirado then 
-    local MsgKick = "⚠️ 𝐄𝐒𝐓𝐄𝐑𝐍𝐀𝐋 | 𝐇𝐔𝐁𝐒 𝐃𝐄𝐓𝐄𝐂𝐓𝐄𝐃 ⚠️\n\n❌ Você tentou burlar o sistema reexecutando o script após o tempo expirar!\n\n🔄 Aguarde a atualização para usar novamente. ⌛✨"
-    game.Players.LocalPlayer:Kick(MsgKick)
+-- [[ 🛡️ ANTI-REEXECUTION SYSTEM ]]
+if _G.EsternalLoaded then 
+    game.Players.LocalPlayer:Kick("⚠️ ESTERNAL HUBS ⚠️\n\n❌ Script já está carregado!\n\n🔄 Aguarde para executar novamente.")
     return 
 end
-
-if _G.EsternalLoaded then return end
 _G.EsternalLoaded = true
-_G.ScriptAtivo = true 
-_G.TempoExpirado = false
+_G.ScriptActive = true
+_G.TimerExpired = false
 
--- [[ 🕒 CONFIGURAÇÃO DE SESSÃO ONLINE ]]
-local TempoInicio = os.time()
-local TempoLimite = 3600 -- 1 Hora
-local MsgKickPadrao = "⚠️ 𝐄𝐒𝐓𝐄𝐑𝐍𝐀𝐋 | 𝐇𝐔𝐁𝐒 𝐒𝐄𝐒𝐒𝐈𝐎𝐍 ⚠️\n\n❌ Sua sessão de 1 hora expirou!\n\n🔄 O script está sendo atualizado no GitHub. Aguarde o novo patch para retornar! ⌛✨"
-
--- [[ 📚 LIBS ORIGINAIS ]]
+-- [[ 📚 GITHUB LIBRARIES ]]
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
--- [[ 🛠️ FUNÇÃO DE CHECAGEM DE SEGURANÇA ]]
-local function CheckAcesso()
-    if _G.TempoExpirado then
-        Fluent:Notify({Title = "SESSÃO EXPIRADA", Content = "As funções foram bloqueadas. Re-execute o script para atualizar.", Duration = 5})
-        return false
-    end
-    return true
-end
-
--- [[ LÓGICA INTERNA DO AIMBOT ]]
+-- [[ 🎮 GAME SERVICES ]]
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local HttpService = game:GetService("HttpService")
 local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
 
-_G.AimbotEnabled = false
-_G.FovVisible = true
-_G.FovRadius = 100
-_G.TeamCheck = false
-_G.WallCheck = true
-_G.TargetPart = "Head"
+-- [[ 🌐 GITHUB TIMER CONFIGURATION ]]
+-- !! IMPORTANTE: Substitua pela sua URL do GitHub !!
+local GITHUB_TIMER_URL = "https://raw.githubusercontent.com/SEU_USER/SEU_REPO/main/timer.txt"
+local GITHUB_VERSION_URL = "https://raw.githubusercontent.com/SEU_USER/SEU_REPO/main/version.txt"
+local VERSION = "4.5.0"
 
--- Globais do ESP
-_G.EspEnabled = false
-_G.EspBoxes = false
-_G.EspTracers = false
-_G.EspSkeleton = false 
-_G.EspHealthBar = false
-_G.EspHealthHorizontal = false 
-_G.EspChams = false
-_G.TracerOrigin = "Bottom"
-_G.MaxDistance = 500 
+-- [[ ⚙️ GLOBAL SETTINGS ]]
+_G.Settings = {
+    Aimbot = {
+        Enabled = false,
+        FOV = 100,
+        FOVVisible = true,
+        TeamCheck = false,
+        WallCheck = true,
+        TargetPart = "Head",
+        Smoothness = 0.5,
+        Prediction = 0.1,
+        Keybind = Enum.UserInputType.MouseButton2
+    },
+    ESP = {
+        Enabled = false,
+        Boxes = false,
+        Tracers = false,
+        Skeleton = false,
+        HealthBar = false,
+        HealthBarHorizontal = false,
+        Chams = false,
+        Distance = false,
+        Names = false,
+        TracerOrigin = "Bottom",
+        MaxDistance = 500,
+        BoxColor = Color3.fromRGB(0, 255, 255),
+        TracerColor = Color3.fromRGB(255, 255, 0),
+        SkeletonColor = Color3.fromRGB(255, 255, 255),
+        ChamsColor = Color3.fromRGB(255, 255, 255),
+        HealthColor = Color3.fromRGB(0, 255, 0),
+        NameColor = Color3.fromRGB(255, 255, 255)
+    }
+}
 
--- GLOBAIS DE CORES
-_G.BoxColor = Color3.fromRGB(0, 255, 255)
-_G.TracerColor = Color3.fromRGB(255, 255, 0)
-_G.ChamsColor = Color3.fromRGB(255, 255, 255)
-_G.SkeletonColor = Color3.fromRGB(255, 255, 255)
-_G.HealthBarColor = Color3.fromRGB(0, 255, 0)
+-- [[ 🎨 DRAWING OBJECTS ]]
+local FOVCircle = Drawing.new("Circle")
+FOVCircle.Visible = _G.Settings.Aimbot.FOVVisible
+FOVCircle.Thickness = 1.5
+FOVCircle.Color = Color3.fromRGB(0, 255, 127)
+FOVCircle.Filled = false
+FOVCircle.Radius = _G.Settings.Aimbot.FOV
+FOVCircle.NumSides = 60
+FOVCircle.Position = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
 
-local FovCircle = Drawing.new("Circle")
-FovCircle.Visible = _G.FovVisible
-FovCircle.Thickness = 1.5
-FovCircle.Color = Color3.fromRGB(0, 255, 127)
-FovCircle.Filled = false
-FovCircle.Radius = _G.FovRadius
-FovCircle.Position = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
+-- [[ 🖼️ GUI CREATION ]]
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "EsternalHub"
+ScreenGui.Parent = game.CoreGui
+ScreenGui.ResetOnSpawn = false
 
--- 1. Main Window
+-- [[ 🎯 MAIN WINDOW ]]
 local Window = Fluent:CreateWindow({
-    Title = "Esternal | Hubs",
-    SubTitle = "Professional Edition",
+    Title = "Esternal | Hubs " .. VERSION,
+    SubTitle = "Universal Timer Edition | 1H Session",
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 460),
-    Acrylic = false,
+    Acrylic = true,
     Theme = "Darker",
     MinimizeKey = Enum.KeyCode.RightControl
 })
 
--- 2. Tabs
+-- [[ 📑 TABS ]]
 local Tabs = {
     Home = Window:AddTab({ Title = "🏠 Home", Icon = "home" }),
     Combat = Window:AddTab({ Title = "🎯 Aimbot", Icon = "target" }),
-    ESP = Window:AddTab({ Title = "👁️ ESP Visuals", Icon = "eye" }),
-    Visuals = Window:AddTab({ Title = "🎨 Colors & UI", Icon = "palette" }),
-    Settings = Window:AddTab({ Title = "⚙️ Pro Options", Icon = "settings" })
+    Visuals = Window:AddTab({ Title = "👁️ ESP", Icon = "eye" }),
+    Colors = Window:AddTab({ Title = "🎨 Colors", Icon = "palette" }),
+    Misc = Window:AddTab({ Title = "⚙️ Misc", Icon = "settings" })
 }
 
--- 3. Floating Button System
-local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
-local FloatingBtn = Instance.new("ImageButton", ScreenGui)
-local Corner = Instance.new("UICorner", FloatingBtn)
-local Stroke = Instance.new("UIStroke", FloatingBtn)
+-- ============================================
+-- [[ ⏰ SISTEMA DE TIMER UNIVERSAL VIA GITHUB ]]
+-- ============================================
 
-FloatingBtn.Name = "SupremeBall"
-FloatingBtn.Size = UDim2.new(0, 55, 0, 55)
-FloatingBtn.Position = UDim2.new(0, 20, 0, 150)
-FloatingBtn.Image = "rbxassetid://10723345663" 
-FloatingBtn.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-FloatingBtn.Draggable = true
-FloatingBtn.Active = true
-Corner.CornerRadius = UDim.new(1, 0)
-Stroke.Thickness = 2.5
-Stroke.Color = Color3.fromRGB(0, 255, 127)
+local TimerText
+local TimerStatus
+local CurrentTimeLeft = 3600 -- 1 hora em segundos
+local LastGitHubCheck = 0
+local GitHubTimerValue = 3600
 
-FloatingBtn.MouseButton1Click:Connect(function() Window:Minimize() end)
+-- Função para buscar timer do GitHub
+local function GetGitHubTimer()
+    local success, result = pcall(function()
+        return HttpService:GetAsync(GITHUB_TIMER_URL)
+    end)
+    
+    if success and result then
+        local timerValue = tonumber(result:match("%d+"))
+        if timerValue and timerValue > 0 then
+            GitHubTimerValue = timerValue
+            return timerValue
+        end
+    end
+    return GitHubTimerValue -- Retorna último valor válido
+end
 
--- 4. Home Content
-local HomeSection = Tabs.Home:AddSection("Online Hub Information")
-local HomeParagraph = Tabs.Home:AddParagraph({
-    Title = "Welcome, " .. LocalPlayer.DisplayName,
-    Content = "Status: Online Session\nSource: GitHub Managed\nVersion: 4.5.0 ESP 500M"
-})
-
-local TimerPara = Tabs.Home:AddParagraph({
-    Title = "⏱️ Tempo de Sessão Online",
-    Content = "Sincronizando com GitHub..."
-})
-
--- LOOP DO TIMER ONLINE (COM TRAVA DE SEGURANÇA)
-task.spawn(function()
-    while _G.ScriptAtivo do
-        local TempoPassado = os.time() - TempoInicio
-        local Restante = TempoLimite - TempoPassado
+-- Função para verificar se expirou
+local function CheckTimerExpired()
+    if CurrentTimeLeft <= 0 and not _G.TimerExpired then
+        _G.TimerExpired = true
+        _G.ScriptActive = false
         
-        if Restante <= 0 then 
-            _G.ScriptAtivo = false
-            _G.TempoExpirado = true 
-            
-            _G.AimbotEnabled = false
-            _G.EspEnabled = false
-            FovCircle.Visible = false
-            
-            HomeParagraph:SetTitle("📢 PAINEL EM ATUALIZAÇÃO")
-            HomeParagraph:SetDesc("O script terá uma atualização, aguarde...")
-            TimerPara:SetDesc("Sessão Expirada: 00:00:00 ❌")
-            
-            Fluent:Notify({Title = "AVISO", Content = "Tempo expirado! Funções desativadas.", Duration = 10})
-            break 
+        -- Desliga todas as funções
+        _G.Settings.Aimbot.Enabled = false
+        _G.Settings.ESP.Enabled = false
+        FOVCircle.Visible = false
+        
+        -- Atualiza UI
+        if TimerStatus then
+            TimerStatus:SetDesc("⏰ SESSÃO EXPIRADA - Aguarde atualização")
         end
         
-        local m, s = math.floor(Restante/60), math.floor(Restante%60)
-        TimerPara:SetDesc(string.format("Sua chave online expira em: %02dm %02ds", m, s))
-        task.wait(1)
+        if TimerText then
+            TimerText:SetTitle("🚫 SISTEMA BLOQUEADO")
+            TimerText:SetContent("⏰ Tempo esgotado!\n\n🔄 Aguarde o desenvolvedor atualizar o timer no GitHub para continuar usando.\n\n📢 Fique atento às novidades!")
+        end
+        
+        -- Notificação
+        Fluent:Notify({
+            Title = "⏰ TEMPO ESGOTADO",
+            Content = "Sessão de 1 hora finalizada! Aguarde atualização do timer no GitHub.",
+            Duration = 10
+        })
     end
-end)
+end
 
-Tabs.Home:AddButton({
-    Title = "Rejoin Server",
-    Callback = function() game:GetService("TeleportService"):Teleport(game.PlaceId) end
-})
-
--- [[ 🎯 COMBAT SECTION ]]
-local AimSection = Tabs.Combat:AddSection("Aimbot Settings")
-Tabs.Combat:AddToggle("AimbotActive", {Title = "Enable Aimbot", Default = false, Callback = function(v) 
-    if CheckAcesso() then _G.AimbotEnabled = v end 
-end})
-Tabs.Combat:AddToggle("ShowFov", {Title = "Enable FOV Circle", Default = true, Callback = function(v) 
-    if CheckAcesso() then FovCircle.Visible = v end 
-end})
-Tabs.Combat:AddSlider("FovSize", {Title = "FOV Radius", Default = 100, Min = 10, Max = 400, Rounding = 0, Callback = function(v) 
-    _G.FovRadius = v FovCircle.Radius = v 
-end})
-
-local TargetSection = Tabs.Combat:AddSection("Target Selection")
-Tabs.Combat:AddDropdown("HitPart", {
-    Title = "Select Target Part",
-    Values = {"Head", "Neck", "HumanoidRootPart", "UpperTorso", "Left Arm", "Right Arm"},
-    Default = "Head",
-    Callback = function(v) _G.TargetPart = v end
-})
-Tabs.Combat:AddToggle("TeamCheck", {Title = "Team Check", Default = false, Callback = function(v) _G.TeamCheck = v end})
-Tabs.Combat:AddToggle("WallCheck", {Title = "Wall Check (Wallhack)", Default = true, Callback = function(v) _G.WallCheck = v end})
-
--- [[ 👁️ ESP SECTION ]]
-local EspOpt = Tabs.ESP:AddSection("ESP Toggles")
-Tabs.ESP:AddToggle("EspMaster", {Title = "Enable ESP Master", Default = false, Callback = function(v) 
-    if CheckAcesso() then _G.EspEnabled = v end 
-end})
-Tabs.ESP:AddToggle("EspSkeleton", {Title = "Show Skeleton", Default = false, Callback = function(v) _G.EspSkeleton = v end})
-Tabs.ESP:AddToggle("EspBox", {Title = "Show Boxes", Default = false, Callback = function(v) _G.EspBoxes = v end})
-Tabs.ESP:AddToggle("EspTracer", {Title = "Show Tracers", Default = false, Callback = function(v) _G.EspTracers = v end})
-Tabs.ESP:AddDropdown("TracerOri", {Title = "Tracer Origin", Values = {"Top", "Center", "Bottom"}, Default = "Bottom", Callback = function(v) _G.TracerOrigin = v end})
-Tabs.ESP:AddToggle("EspHealth", {Title = "Health Bar (Vertical)", Default = false, Callback = function(v) _G.EspHealthBar = v end})
-Tabs.ESP:AddToggle("EspHealthH", {Title = "Health Bar (Horizontal)", Default = false, Callback = function(v) _G.EspHealthHorizontal = v end})
-Tabs.ESP:AddToggle("EspCham", {Title = "Soft Chams", Default = false, Callback = function(v) _G.EspChams = v end})
-
-local EspColors = Tabs.ESP:AddSection("Individual ESP Colors")
-Tabs.ESP:AddColorpicker("SkeletonColorPick", {Title = "Skeleton Color", Default = Color3.fromRGB(255, 255, 255), Callback = function(v) _G.SkeletonColor = v end})
-Tabs.ESP:AddColorpicker("BoxColorPick", {Title = "Box Color", Default = Color3.fromRGB(0, 255, 255), Callback = function(v) _G.BoxColor = v end})
-Tabs.ESP:AddColorpicker("TracerColorPick", {Title = "Tracer Color", Default = Color3.fromRGB(255, 255, 0), Callback = function(v) _G.TracerColor = v end})
-Tabs.ESP:AddColorpicker("ChamsColorPick", {Title = "Chams Color", Default = Color3.fromRGB(255, 255, 255), Callback = function(v) _G.ChamsColor = v end})
-Tabs.ESP:AddColorpicker("HealthColorPick", {Title = "Health Bar Color", Default = Color3.fromRGB(0, 255, 0), Callback = function(v) _G.HealthBarColor = v end})
-
--- [[ 🎨 VISUAL TAB ]]
-local ColorSection = Tabs.Visuals:AddSection("Professional Color Manager")
-local ThemeColor = Tabs.Visuals:AddColorpicker("AccentColor", {Title = "FOV Circle Color", Default = Color3.fromRGB(0, 255, 127)})
-ThemeColor:OnChanged(function() FovCircle.Color = ThemeColor.Value end)
-local BallColorPicker = Tabs.Visuals:AddColorpicker("BallColor", {Title = "Floating Ball Stroke", Default = Color3.fromRGB(0, 255, 127)})
-BallColorPicker:OnChanged(function() Stroke.Color = BallColorPicker.Value end)
-
-Tabs.Visuals:AddButton({Title = "Apply Selection", Callback = function() Fluent:Notify({Title = "Visual System", Content = "Colors Synchronized!", Duration = 3}) end})
-
-local BallSection = Tabs.Visuals:AddSection("Floating Button Adjustments")
-Tabs.Visuals:AddSlider("BallSize", {Title = "Button Size", Default = 55, Min = 10, Max = 100, Rounding = 0, Callback = function(Value) FloatingBtn.Size = UDim2.new(0, Value, 0, Value) end})
-Tabs.Visuals:AddSlider("BallTransp", {Title = "Button Opacity", Default = 0, Min = 0, Max = 1, Rounding = 1, Callback = function(Value) FloatingBtn.ImageTransparency = Value FloatingBtn.BackgroundTransparency = Value end})
-
--- [[ ⚙️ SETTINGS TAB ]]
-local HardwareSection = Tabs.Settings:AddSection("Performance & Hardware")
-Tabs.Settings:AddToggle("AntiAFK", {Title = "Anti-AFK System (No Kick)", Default = true})
-Tabs.Settings:AddToggle("FPSBoost", {Title = "Anti-Lag / FPS Boost", Default = false})
-local UISection = Tabs.Settings:AddSection("Panel Size")
-Tabs.Settings:AddButton({Title = "Minimize Menu (Mobile View)", Callback = function() Window:SetSize(UDim2.fromOffset(400, 300)) end})
-Tabs.Settings:AddButton({Title = "Expand Menu (Full View)", Callback = function() Window:SetSize(UDim2.fromOffset(580, 460)) end})
-local ClipSection = Tabs.Settings:AddSection("Utilities")
-Tabs.Settings:AddButton({Title = "Copy Script Link/Key", Callback = function() setclipboard("https://esternal-hubs.com") Fluent:Notify({Title = "Copied", Content = "Link saved to clipboard!", Duration = 2}) end})
-Tabs.Settings:AddButton({Title = "Unload Entire Script", Callback = function() _G.ScriptAtivo = false FovCircle:Remove() Window:Destroy() ScreenGui:Destroy() end})
-
--- [[ 👁️ MOTOR DE ESP ORIGINAL ]]
-local function CreateESP(Player)
-    local Box = Drawing.new("Square"); Box.Visible = false; Box.Filled = false; Box.Thickness = 1.5
-    local HealthOutline = Drawing.new("Square"); HealthOutline.Filled = true; local HealthBar = Drawing.new("Square"); HealthBar.Filled = true
-    local H_HealthOutline = Drawing.new("Square"); H_HealthOutline.Filled = true; local H_HealthBar = Drawing.new("Square"); H_HealthBar.Filled = true
-    local Tracer = Drawing.new("Line")
-    local Bones = {}
-    for i = 1, 5 do Bones[i] = Drawing.new("Line"); Bones[i].Thickness = 1.5; Bones[i].Transparency = 1 end
-
-    local function RemoveESP()
-        Box:Remove(); HealthOutline:Remove(); HealthBar:Remove(); 
-        H_HealthOutline:Remove(); H_HealthBar:Remove(); Tracer:Remove()
-        for _, v in pairs(Bones) do v:Remove() end
-    end
-
-    local Connection
-    Connection = RunService.RenderStepped:Connect(function()
-        if _G.ScriptAtivo and _G.EspEnabled and not _G.TempoExpirado and Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") and Player ~= LocalPlayer then
-            local Root = Player.Character.HumanoidRootPart; local Hum = Player.Character:FindFirstChildOfClass("Humanoid"); local Head = Player.Character:FindFirstChild("Head")
-            if Hum and Hum.Health > 0 and Head then
-                local RootPos, OnScreen = Camera:WorldToViewportPoint(Root.Position); local HeadPos = Camera:WorldToViewportPoint(Head.Position + Vector3.new(0, 0.5, 0)); local LegPos = Camera:WorldToViewportPoint(Root.Position - Vector3.new(0, 3, 0))
-                local MyRoot = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-                local Distance = MyRoot and (Root.Position - MyRoot.Position).Magnitude or 0
-                if OnScreen and Distance <= _G.MaxDistance then
-                    local Height = math.abs(HeadPos.Y - LegPos.Y); local Width = Height * 0.55; local PosX = RootPos.X - Width / 2; local PosY = HeadPos.Y
-                    Box.Visible = _G.EspBoxes; Box.Size = Vector2.new(Width, Height); Box.Position = Vector2.new(PosX, PosY); Box.Color = _G.BoxColor
-                    HealthOutline.Visible = _G.EspHealthBar; HealthBar.Visible = _G.EspHealthBar
-                    if _G.EspHealthBar then
-                        local HealthPercent = Hum.Health / Hum.MaxHealth
-                        HealthOutline.Size = Vector2.new(4, Height); HealthOutline.Position = Vector2.new(PosX - 6, PosY); HealthOutline.Color = Color3.new(0,0,0)
-                        HealthBar.Size = Vector2.new(2, Height * HealthPercent); HealthBar.Position = Vector2.new(PosX - 5, PosY + (Height * (1 - HealthPercent))); HealthBar.Color = _G.HealthBarColor
-                    end
-                    H_HealthOutline.Visible = _G.EspHealthHorizontal; H_HealthBar.Visible = _G.EspHealthHorizontal
-                    if _G.EspHealthHorizontal then
-                        local HealthPercent = Hum.Health / Hum.MaxHealth
-                        H_HealthOutline.Size = Vector2.new(Width, 4); H_HealthOutline.Position = Vector2.new(PosX, PosY - 8); H_HealthOutline.Color = Color3.new(0,0,0)
-                        H_HealthBar.Size = Vector2.new(Width * HealthPercent, 2); H_HealthBar.Position = Vector2.new(PosX, PosY - 7); H_HealthBar.Color = _G.HealthBarColor
-                    end
-                    Tracer.Visible = _G.EspTracers
-                    if _G.EspTracers then
-                        Tracer.Color = _G.TracerColor; Tracer.To = Vector2.new(RootPos.X, RootPos.Y)
-                        Tracer.From = (_G.TracerOrigin == "Bottom" and Vector2.new(Camera.ViewportSize.X/2, Camera.ViewportSize.Y) or _G.TracerOrigin == "Center" and Vector2.new(Camera.ViewportSize.X/2, Camera.ViewportSize.Y/2) or Vector2.new(Camera.ViewportSize.X/2, 0))
-                    end
-                    if _G.EspSkeleton then
-                        local function GetP(n) local p = Player.Character:FindFirstChild(n); return p and Camera:WorldToViewportPoint(p.Position) end
-                        local T = GetP("UpperTorso") or GetP("Torso"); local LA = GetP("LeftUpperArm") or GetP("Left Arm"); local RA = GetP("RightUpperArm") or GetP("Right Arm"); local LL = GetP("LeftUpperLeg") or GetP("Left Leg"); local RL = GetP("RightUpperLeg") or GetP("Right Leg"); local HP = HeadPos
-                        if T and HP and LA and RA and LL and RL then
-                            local function L(i, f, t) Bones[i].Visible = true; Bones[i].From = Vector2.new(f.X, f.Y); Bones[i].To = Vector2.new(t.X, t.Y); Bones[i].Color = _G.SkeletonColor end
-                            L(1, HP, T); L(2, T, LA); L(3, T, RA); L(4, T, LL); L(5, T, RL)
-                        else for _, v in pairs(Bones) do v.Visible = false end end
-                    else for _, v in pairs(Bones) do v.Visible = false end end
-                    if _G.EspChams then
-                        local High = Player.Character:FindFirstChild("EsternalVisual") or Instance.new("Highlight", Player.Character)
-                        High.Name = "EsternalVisual"; High.FillTransparency = 0.8; High.OutlineColor = _G.ChamsColor; High.FillColor = _G.ChamsColor; High.Enabled = true
-                    elseif Player.Character:FindFirstChild("EsternalVisual") then Player.Character.EsternalVisual.Enabled = false end
-                else Box.Visible = false; HealthOutline.Visible = false; HealthBar.Visible = false; H_HealthOutline.Visible = false; H_HealthBar.Visible = false; Tracer.Visible = false; for _, v in pairs(Bones) do v.Visible = false end end
+-- Função para atualizar timer
+local function UpdateTimer()
+    task.spawn(function()
+        while _G.ScriptActive do
+            -- Verifica GitHub a cada 5 minutos (300 segundos)
+            if os.time() - LastGitHubCheck >= 300 then
+                GitHubTimerValue = GetGitHubTimer()
+                LastGitHubCheck = os.time()
+                
+                -- Se o timer do GitHub mudou, reinicia contagem
+                if GitHubTimerValue ~= CurrentTimeLeft and GitHubTimerValue > 0 then
+                    CurrentTimeLeft = GitHubTimerValue
+                end
             end
-        else
-            Box.Visible = false; HealthOutline.Visible = false; HealthBar.Visible = false; H_HealthOutline.Visible = false; H_HealthBar.Visible = false; Tracer.Visible = false; for _, v in pairs(Bones) do v.Visible = false end
-            if not Player.Parent then RemoveESP(); Connection:Disconnect() end
+            
+            if not _G.TimerExpired then
+                CurrentTimeLeft = CurrentTimeLeft - 1
+                
+                if CurrentTimeLeft < 0 then
+                    CurrentTimeLeft = 0
+                end
+                
+                CheckTimerExpired()
+                
+                -- Formata tempo
+                local hours = math.floor(CurrentTimeLeft / 3600)
+                local minutes = math.floor((CurrentTimeLeft % 3600) / 60)
+                local seconds = CurrentTimeLeft % 60
+                
+                local timeString = string.format("%02d:%02d:%02d", hours, minutes, seconds)
+                
+                -- Atualiza UI
+                if TimerStatus and not _G.TimerExpired then
+                    TimerStatus:SetDesc("⏰ Tempo restante: " .. timeString)
+                end
+            end
+            
+            task.wait(1)
         end
     end)
 end
 
-for _, v in pairs(Players:GetPlayers()) do CreateESP(v) end
-Players.PlayerAdded:Connect(CreateESP)
+-- Busca timer inicial do GitHub
+GitHubTimerValue = GetGitHubTimer()
+CurrentTimeLeft = GitHubTimerValue
 
--- [[ MOTOR DE COMBATE CORE ]]
-local function GetTargetPart(Char)
-    if _G.TargetPart == "UpperTorso" then return Char:FindFirstChild("UpperTorso") or Char:FindFirstChild("Torso")
-    elseif _G.TargetPart == "Neck" then return Char:FindFirstChild("Neck") or Char:FindFirstChild("Head")
-    else return Char:FindFirstChild(_G.TargetPart) end
+-- [[ 🏠 HOME TAB COM TIMER ]]
+local HomeSection = Tabs.Home:AddSection("Informações do Hub")
+
+-- Parágrafo de boas-vindas
+local WelcomeText = Tabs.Home:AddParagraph({
+    Title = "Bem-vindo, " .. LocalPlayer.DisplayName,
+    Content = string.format("Status: ✅ Online\nVersão: %s\nTimer: Sincronizado via GitHub", VERSION)
+})
+
+-- Parágrafo do timer (principal)
+TimerText = Tabs.Home:AddParagraph({
+    Title = "⏰ SESSÃO TEMPORIZADA",
+    Content = "Carregando timer do GitHub..."
+})
+
+-- Status do timer
+TimerStatus = Tabs.Home:AddParagraph({
+    Title = "📊 Status da Sessão",
+    Content = "⏰ Conectando ao GitHub..."
+})
+
+-- Informação do GitHub
+Tabs.Home:AddParagraph({
+    Title = "🌐 GitHub Sync",
+    Content = "✅ Timer sincronizado online\n🔄 Atualiza automático a cada 5 minutos\n⏱️ 1 hora de sessão para todos"
+})
+
+-- Botões
+Tabs.Home:AddButton({
+    Title = "📋 Copiar Link do GitHub",
+    Callback = function()
+        setclipboard("https://github.com/SEU_USER/SEU_REPO")
+        Fluent:Notify({Title = "Copiado!", Content = "Link do GitHub salvo!", Duration = 3})
+    end
+})
+
+Tabs.Home:AddButton({
+    Title = "🔄 Verificar Timer GitHub",
+    Callback = function()
+        local newTimer = GetGitHubTimer()
+        if newTimer and newTimer > 0 then
+            CurrentTimeLeft = newTimer
+            Fluent:Notify({
+                Title = "Timer Atualizado", 
+                Content = "Timer sincronizado: " .. newTimer .. " segundos", 
+                Duration = 3
+            })
+        else
+            Fluent:Notify({
+                Title = "Erro", 
+                Content = "Não foi possível sincronizar com GitHub", 
+                Duration = 3
+            })
+        end
+    end
+})
+
+-- [[ 🎯 COMBAT TAB COM VERIFICAÇÃO DE TIMER ]]
+local AimbotSection = Tabs.Combat:AddSection("Configurações do Aimbot")
+
+local function CheckTimerAndExecute(callback)
+    return function(value)
+        if _G.TimerExpired then
+            Fluent:Notify({
+                Title = "⏰ TEMPO ESGOTADO",
+                Content = "Funções bloqueadas. Aguarde atualização do timer no GitHub.",
+                Duration = 5
+            })
+            return
+        end
+        callback(value)
+    end
 end
 
-local function GetClosestPlayer()
-    local Target = nil; local Dist = _G.FovRadius
-    for _, v in pairs(Players:GetPlayers()) do
-        if v ~= LocalPlayer and v.Character then
-            local Part = GetTargetPart(v.Character)
-            if Part then
-                if _G.TeamCheck and v.Team == LocalPlayer.Team then continue end
-                local hum = v.Character:FindFirstChildOfClass("Humanoid")
-                if not hum or hum.Health <= 0 then continue end
-                local Pos, OnScreen = Camera:WorldToViewportPoint(Part.Position)
-                if OnScreen then
-                    local Magnitude = (Vector2.new(Pos.X, Pos.Y) - Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)).Magnitude
-                    if Magnitude < Dist then
-                        if _G.WallCheck then
-                            local obs = Camera:GetPartsObscuringTarget({Part.Position}, {LocalPlayer.Character, v.Character})
-                            if #obs > 0 then continue end
+Tabs.Combat:AddToggle("AimbotToggle", {
+    Title = "Ativar Aimbot",
+    Description = "Mira automática em jogadores",
+    Default = false,
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.Aimbot.Enabled = value
+    end)
+})
+
+Tabs.Combat:AddToggle("FOVToggle", {
+    Title = "Mostrar Círculo FOV",
+    Default = true,
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.Aimbot.FOVVisible = value
+        FOVCircle.Visible = value and not _G.TimerExpired
+    end)
+})
+
+Tabs.Combat:AddSlider("FOVSlider", {
+    Title = "Raio do FOV",
+    Default = 100,
+    Min = 10,
+    Max = 400,
+    Rounding = 0,
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.Aimbot.FOV = value
+        FOVCircle.Radius = value
+    end)
+})
+
+Tabs.Combat:AddSlider("SmoothSlider", {
+    Title = "Suavidade da Mira",
+    Default = 0.5,
+    Min = 0,
+    Max = 1,
+    Rounding = 2,
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.Aimbot.Smoothness = value
+    end)
+})
+
+Tabs.Combat:AddDropdown("TargetPart", {
+    Title = "Parte do Corpo",
+    Values = {"Head", "Neck", "HumanoidRootPart", "UpperTorso", "LowerTorso"},
+    Default = "Head",
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.Aimbot.TargetPart = value
+    end)
+})
+
+Tabs.Combat:AddToggle("TeamCheck", {
+    Title = "Ignorar Mesmo Time",
+    Default = false,
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.Aimbot.TeamCheck = value
+    end)
+})
+
+Tabs.Combat:AddToggle("WallCheck", {
+    Title = "Verificar Paredes",
+    Default = true,
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.Aimbot.WallCheck = value
+    end)
+})
+
+Tabs.Combat:AddDropdown("AimbotKey", {
+    Title = "Tecla de Ativação",
+    Description = "Segure para ativar o aimbot",
+    Values = {"Botão Direito", "Botão Esquerdo", "Shift", "Control", "Alt"},
+    Default = "Botão Direito",
+    Callback = CheckTimerAndExecute(function(value)
+        local keyMap = {
+            ["Botão Direito"] = Enum.UserInputType.MouseButton2,
+            ["Botão Esquerdo"] = Enum.UserInputType.MouseButton1,
+            ["Shift"] = Enum.KeyCode.LeftShift,
+            ["Control"] = Enum.KeyCode.LeftControl,
+            ["Alt"] = Enum.KeyCode.LeftAlt
+        }
+        _G.Settings.Aimbot.Keybind = keyMap[value]
+    end)
+})
+
+-- [[ 👁️ VISUALS TAB COM VERIFICAÇÃO ]]
+local ESPToggle = Tabs.Visuals:AddSection("Configurações ESP")
+
+Tabs.Visuals:AddToggle("ESPMaster", {
+    Title = "Ativar ESP",
+    Default = false,
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.ESP.Enabled = value
+    end)
+})
+
+Tabs.Visuals:AddToggle("ESPBox", {
+    Title = "Caixas ESP",
+    Default = false,
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.ESP.Boxes = value
+    end)
+})
+
+Tabs.Visuals:AddToggle("ESPTracer", {
+    Title = "Linhas (Tracers)",
+    Default = false,
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.ESP.Tracers = value
+    end)
+})
+
+Tabs.Visuals:AddToggle("ESPSkeleton", {
+    Title = "Esqueleto",
+    Default = false,
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.ESP.Skeleton = value
+    end)
+})
+
+Tabs.Visuals:AddToggle("ESPHealth", {
+    Title = "Barra de Vida (Vertical)",
+    Default = false,
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.ESP.HealthBar = value
+    end)
+})
+
+Tabs.Visuals:AddToggle("ESPHealthH", {
+    Title = "Barra de Vida (Horizontal)",
+    Default = false,
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.ESP.HealthBarHorizontal = value
+    end)
+})
+
+Tabs.Visuals:AddToggle("ESPChams", {
+    Title = "Chams (Destaque)",
+    Default = false,
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.ESP.Chams = value
+    end)
+})
+
+Tabs.Visuals:AddToggle("ESPDistance", {
+    Title = "Mostrar Distância",
+    Default = false,
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.ESP.Distance = value
+    end)
+})
+
+Tabs.Visuals:AddToggle("ESPNames", {
+    Title = "Mostrar Nomes",
+    Default = false,
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.ESP.Names = value
+    end)
+})
+
+Tabs.Visuals:AddDropdown("TracerOrigin", {
+    Title = "Origem das Linhas",
+    Values = {"Topo", "Centro", "Base"},
+    Default = "Base",
+    Callback = CheckTimerAndExecute(function(value)
+        local originMap = {
+            ["Topo"] = "Top",
+            ["Centro"] = "Center",
+            ["Base"] = "Bottom"
+        }
+        _G.Settings.ESP.TracerOrigin = originMap[value]
+    end)
+})
+
+Tabs.Visuals:AddSlider("MaxDistance", {
+    Title = "Distância Máxima",
+    Default = 500,
+    Min = 100,
+    Max = 2000,
+    Rounding = 0,
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.ESP.MaxDistance = value
+    end)
+})
+
+-- [[ 🎨 COLORS TAB ]]
+local ColorsSection = Tabs.Colors:AddSection("Cores ESP")
+
+Tabs.Colors:AddColorpicker("BoxColor", {
+    Title = "Cor das Caixas",
+    Default = Color3.fromRGB(0, 255, 255),
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.ESP.BoxColor = value
+    end)
+})
+
+Tabs.Colors:AddColorpicker("TracerColor", {
+    Title = "Cor das Linhas",
+    Default = Color3.fromRGB(255, 255, 0),
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.ESP.TracerColor = value
+    end)
+})
+
+Tabs.Colors:AddColorpicker("SkeletonColor", {
+    Title = "Cor do Esqueleto",
+    Default = Color3.fromRGB(255, 255, 255),
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.ESP.SkeletonColor = value
+    end)
+})
+
+Tabs.Colors:AddColorpicker("ChamsColor", {
+    Title = "Cor dos Chams",
+    Default = Color3.fromRGB(255, 255, 255),
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.ESP.ChamsColor = value
+    end)
+})
+
+Tabs.Colors:AddColorpicker("HealthColor", {
+    Title = "Cor da Barra de Vida",
+    Default = Color3.fromRGB(0, 255, 0),
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.ESP.HealthColor = value
+    end)
+})
+
+Tabs.Colors:AddColorpicker("NameColor", {
+    Title = "Cor dos Nomes",
+    Default = Color3.fromRGB(255, 255, 255),
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.ESP.NameColor = value
+    end)
+})
+
+local FOVColorPicker = Tabs.Colors:AddColorpicker("FOVColor", {
+    Title = "Cor do Círculo FOV",
+    Default = Color3.fromRGB(0, 255, 127)
+})
+FOVColorPicker:OnChanged(function()
+    if not _G.TimerExpired then
+        FOVCircle.Color = FOVColorPicker.Value
+    end
+end)
+
+-- [[ ⚙️ MISC TAB ]]
+local MiscSection = Tabs.Misc:AddSection("Utilitários")
+
+Tabs.Misc:AddToggle("AntiAFK", {
+    Title = "Anti AFK",
+    Description = "Evita ser desconectado",
+    Default = true,
+    Callback = CheckTimerAndExecute(function(value)
+        _G.Settings.Misc.AntiAFK = value
+    end)
+})
+
+Tabs.Misc:AddButton({
+    Title = "❌ Destruir Interface",
+    Description = "Remove completamente o hub",
+    Callback = function()
+        _G.ScriptActive = false
+        FOVCircle:Remove()
+        Window:Destroy()
+        ScreenGui:Destroy()
+    end
+})
+
+-- ============================================
+-- [[ 🔫 AIMBOT CORE FUNCTIONS ]]
+-- ============================================
+
+local function GetTargetPart(character)
+    if not character then return nil end
+    
+    local partName = _G.Settings.Aimbot.TargetPart
+    if partName == "Neck" then
+        return character:FindFirstChild("Neck") or character:FindFirstChild("Head")
+    elseif partName == "UpperTorso" then
+        return character:FindFirstChild("UpperTorso") or character:FindFirstChild("Torso")
+    else
+        return character:FindFirstChild(partName)
+    end
+end
+
+local function IsVisible(targetPart)
+    if not _G.Settings.Aimbot.WallCheck then return true end
+    
+    local origin = Camera.CFrame.Position
+    local ray = Ray.new(origin, (targetPart.Position - origin).Unit * 1000)
+    local hit = workspace:FindPartOnRay(ray, LocalPlayer.Character)
+    
+    return hit == nil or hit:IsDescendantOf(targetPart.Parent)
+end
+
+local function GetClosestTarget()
+    if _G.TimerExpired then return nil end
+    
+    local closest = nil
+    local shortestDistance = _G.Settings.Aimbot.FOV
+    local center = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
+    
+    for _, player in pairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
+            if humanoid and humanoid.Health > 0 then
+                if _G.Settings.Aimbot.TeamCheck and player.Team == LocalPlayer.Team then continue end
+                
+                local targetPart = GetTargetPart(player.Character)
+                if targetPart then
+                    local screenPos, onScreen = Camera:WorldToViewportPoint(targetPart.Position)
+                    if onScreen then
+                        local distance = (Vector2.new(screenPos.X, screenPos.Y) - center).Magnitude
+                        if distance < shortestDistance then
+                            if IsVisible(targetPart) then
+                                closest = player
+                                shortestDistance = distance
+                            end
                         end
-                        Target = v; Dist = Magnitude
                     end
                 end
             end
         end
     end
-    return Target
+    
+    return closest
 end
 
-RunService.RenderStepped:Connect(function()
-    if not _G.ScriptAtivo or _G.TempoExpirado then return end
-    FovCircle.Position = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
-    if _G.AimbotEnabled then
-        local Target = GetClosestPlayer()
-        if Target and Target.Character then
-            local Part = GetTargetPart(Target.Character)
-            if Part then Camera.CFrame = CFrame.new(Camera.CFrame.Position, Part.Position) end
-        end
+-- [[ 🎯 AIMBOT LOOP ]]
+local isAiming = false
+UserInputService.InputBegan:Connect(function(input)
+    if _G.TimerExpired then return end
+    if input.UserInputType == _G.Settings.Aimbot.Keybind or input.KeyCode == _G.Settings.Aimbot.Keybind then
+        isAiming = true
     end
 end)
 
--- [[ FINALIZAÇÃO ]]
-SaveManager:SetLibrary(Fluent)
-InterfaceManager:SetLibrary(Fluent)
-SaveManager:IgnoreThemeSettings()
-InterfaceManager:BuildInterfaceSection(Tabs.Settings)
-SaveManager:BuildConfigSection(Tabs.Settings)
+UserInputService.InputEnded:Connect(function(input)
+    if input.UserInputType == _G.Settings.Aimbot.Keybind or input.KeyCode == _G.Settings.Aimbot.Keybind then
+        isAiming = false
+    end
+end)
 
-Window:SelectTab(1)
-Fluent:Notify({Title = "Esternal | Hubs", Content = "Script Online Carregado!", Duration = 5})
+RunService.RenderStepped:Connect(function()
+    if not _G.ScriptActive or _G.TimerExpired then return end
+    
+    FOVCircle.Position = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
+    
+    if _G.Settings.Aimbot.Enabled and isAiming then
+        local target = GetClosestTarget()
+        if target and target.Character then
+            local targetPart = GetTargetPart(target.Character)
+            if targetPart then
+                local targetPos = targetPart.Position
+                
+                -- Predição simples
+                local rootPart = target.Character:FindFirstChild("HumanoidRootPart")
+                if rootPart then
+                    targetPos = targetPos + rootPart.Velocity * _G.Settings.Aimbot.Prediction
+    
