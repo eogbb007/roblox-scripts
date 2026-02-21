@@ -1,1 +1,1 @@
-# roblox-scripts
+# roblox-scripts.   todos direitos reservados user po sua conta em  risco não responsabilizo os riscos esse eo código loand mais loadstring(game:HttpGet("https://raw.githubusercontent.com/eogbb007/roblox-scripts/refs/heads/main/main.lua"))()
