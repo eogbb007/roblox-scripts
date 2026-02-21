@@ -24,11 +24,10 @@ local HttpService = game:GetService("HttpService")
 local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
 
--- [[ 🌐 GITHUB TIMER CONFIGURATION ]]
--- !! IMPORTANTE: Substitua pela sua URL do GitHub !!
-local GITHUB_TIMER_URL = "https://raw.githubusercontent.com/SEU_USER/SEU_REPO/main/timer.txt"
-local GITHUB_VERSION_URL = "https://raw.githubusercontent.com/SEU_USER/SEU_REPO/main/version.txt"
-local VERSION = "4.5.0"
+-- -- [[ 🌐 GITHUB TIMER CONFIGURATION ]]
+local GITHUB_TIMER_URL = "https://raw.githubusercontent.com/eogbb007/roblox-scripts/refs/heads/main/timer.txt"
+local GITHUB_VERSION_URL = "https://raw.githubusercontent.com/eogbb007/roblox-scripts/refs/heads/main/version.txt"
+local VERSION = "9.5.10"
 
 -- [[ ⚙️ GLOBAL SETTINGS ]]
 _G.Settings = {
