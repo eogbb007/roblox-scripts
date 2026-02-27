@@ -57,7 +57,7 @@ FovCircle.Position = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.
 
 -- 1. Main Window
 local Window = Fluent:CreateWindow({
-    Title = "TORA IS ME | SUPREME HUB",
+    Title = "GB escript hubs | hub Premium",
     SubTitle = "Professional Edition",
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 460),
@@ -98,7 +98,7 @@ FloatingBtn.MouseButton1Click:Connect(function() Window:Minimize() end)
 local HomeSection = Tabs.Home:AddSection("Session Information")
 Tabs.Home:AddParagraph({
     Title = "Welcome, " .. LocalPlayer.DisplayName,
-    Content = "Executor: DELTA DETECTED\nStatus: Active Subscription\nVersion: 4.5.0 ESP 500M"
+    Content = "Executor: DELTA DETECTED\nStatus: Active Subscription\nVersion: 110.5.0 ESP 500 atualização"
 })
 
 Tabs.Home:AddButton({
@@ -137,7 +137,7 @@ Tabs.Combat:AddButton({
     Description = "Updates the list with new players",
     Callback = function()
         UpdatePlayerList()
-        Fluent:Notify({Title = "Tora Hub", Content = "Player list updated!", Duration = 2})
+        Fluent:Notify({Title = "GB Hub", Content = "Player list updated!", Duration = 2})
     end
 })
 
@@ -189,7 +189,7 @@ Tabs.Visuals:AddSlider("BallTransp", {Title = "Button Opacity", Default = 0, Min
 -- [[ ⚙️ SETTINGS TAB ]]
 local HardwareSection = Tabs.Settings:AddSection("Performance & Hardware")
 Tabs.Settings:AddToggle("AntiAFK", {Title = "Anti-AFK System (No Kick)", Default = true})
-Tabs.Settings:AddToggle("FPSBoost", {Title = "Anti-Lag / FPS Boost", Default = false})
+Tabs.Settings:AddToggle("FPSBoost", {Title = "Anti-Lag / FPS Boost", Default = true})
 local UISection = Tabs.Settings:AddSection("Panel Size")
 Tabs.Settings:AddButton({Title = "Minimize Menu (Mobile View)", Callback = function() Window:SetSize(UDim2.fromOffset(400, 300)) end})
 Tabs.Settings:AddButton({Title = "Expand Menu (Full View)", Callback = function() Window:SetSize(UDim2.fromOffset(580, 460)) end})
@@ -378,4 +378,4 @@ InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 SaveManager:BuildConfigSection(Tabs.Settings)
 
 Window:SelectTab(1)
-Fluent:Notify({Title = "TORA SUPREME", Content = "Bug da Barra de Vida Corrigido!", Duration = 5})
+Fluent:Notify({Title = "GB script", Content = "Bug da Barra de Vida Corrigido!", Duration = 5})
