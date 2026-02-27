@@ -38,7 +38,7 @@ _G.EspHealthBar = false
 _G.EspHealthHorizontal = false 
 _G.EspChams = false
 _G.TracerOrigin = "Bottom"
-_G.MaxDistance = 500 
+_G.MaxDistance = 230 
 
 -- NOVAS GLOBAIS DE CORES
 _G.BoxColor = Color3.fromRGB(0, 255, 255)
@@ -110,7 +110,7 @@ Tabs.Home:AddButton({
 local AimSection = Tabs.Combat:AddSection("Aimbot Settings")
 Tabs.Combat:AddToggle("AimbotActive", {Title = "Enable Aimbot", Default = false, Callback = function(v) _G.AimbotEnabled = v end})
 Tabs.Combat:AddToggle("ShowFov", {Title = "Enable FOV Circle", Default = true, Callback = function(v) FovCircle.Visible = v end})
-Tabs.Combat:AddSlider("FovSize", {Title = "FOV Radius", Default = 100, Min = 10, Max = 400, Rounding = 0, Callback = function(v) _G.FovRadius = v FovCircle.Radius = v end})
+Tabs.Combat:AddSlider("FovSize", {Title = "FOV Radius", Default = 100, Min = 10, Max = 1000, Rounding = 0, Callback = function(v) _G.FovRadius = v FovCircle.Radius = v end})
 
 -- NOVO BLOCO: WHITELIST PARA IGNORAR PESSOAS
 local WhiteSection = Tabs.Combat:AddSection("Whitelist System")
