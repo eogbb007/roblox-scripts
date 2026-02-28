@@ -25,7 +25,7 @@ _G.AimbotEnabled = false
 _G.FovVisible = true
 _G.FovRadius = 100
 _G.TeamCheck = false
-_G.WallCheck = true
+_G.WallCheck = false
 _G.TargetPart = "Head"
 _G.WhitelistedPlayers = {} -- Tabela para salvar quem ignorar
 
@@ -38,7 +38,7 @@ _G.EspHealthBar = false
 _G.EspHealthHorizontal = false 
 _G.EspChams = false
 _G.TracerOrigin = "Bottom"
-_G.MaxDistance = 230 
+_G.MaxDistance = 150 
 
 -- NOVAS GLOBAIS DE CORES
 _G.BoxColor = Color3.fromRGB(0, 255, 255)
