@@ -38,7 +38,7 @@ _G.EspHealthBar = false
 _G.EspHealthHorizontal = false 
 _G.EspChams = false
 _G.TracerOrigin = "Bottom"
-_G.MaxDistance = 330 
+_G.MaxDistance = 130 
 
 -- NOVAS GLOBAIS DE CORES
 _G.BoxColor = Color3.fromRGB(0, 255, 255)
